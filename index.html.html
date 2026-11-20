@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Farito Refaccionaria · Tienda en línea</title>
+<style>
+  :root { --bg:#f7f7f5; --card:#fff; --txt:#1f1f1d; --sub:#6b6a64; --line:#e3e2dc; --acc:#1d6b4f; --warn:#a33; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--txt); }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:14px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; position:sticky; top:0; z-index:5; }
+  header h1 { font-size:18px; margin:0; font-weight:500; flex:1; }
+  input, select, textarea, button { font:inherit; }
+  .search { padding:8px 12px; border:1px solid var(--line); border-radius:8px; min-width:220px; }
+  .btn { padding:9px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer; }
+  .btn.primary { background:var(--acc); color:#fff; border-color:var(--acc); }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  main { max-width:1100px; margin:0 auto; padding:20px; display:grid; grid-template-columns: 1fr 320px; gap:20px; }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:6px; }
+  .card img { width:100%; height:240px; object-fit:contain; background:#fff; border-radius:8px; cursor:zoom-in; }
+  .card .nombre { font-size:14px; font-weight:500; min-height:36px; }
+  .card .precio { font-size:16px; font-weight:500; }
+  .card .disp { font-size:12px; color:var(--sub); }
+  .card .disp.agotado { color:var(--warn); }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; align-self:start; position:sticky; top:80px; }
+  .panel h2 { font-size:16px; font-weight:500; margin:0 0 10px; }
+  .linea { display:flex; justify-content:space-between; font-size:14px; padding:6px 0; border-bottom:1px solid var(--line); gap:8px; }
+  .linea button { border:none; background:none; color:var(--sub); cursor:pointer; }
+  form label { display:block; font-size:13px; color:var(--sub); margin:10px 0 4px; }
+  form input, form select, form textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; }
+  .aviso { font-size:12px; color:var(--sub); margin-top:4px; }
+  .error { font-size:13px; color:var(--warn); margin-top:6px; min-height:16px; }
+  .ok { background:#eaf5ef; border:1px solid #bfe0d0; border-radius:10px; padding:12px; font-size:14px; }
+  .total { font-size:18px; font-weight:500; margin:10px 0; display:flex; justify-content:space-between; }
+  .oculto { display:none; }
+  footer { max-width:1100px; margin:0 auto; padding:10px 20px 40px; font-size:12px; color:var(--sub); }
+  .banner { background:#fff6e0; border:1px solid #f0d28a; padding:8px 12px; font-size:13px; text-align:center; }
+  .visor { position:fixed; inset:0; background:rgba(0,0,0,.85); display:flex; align-items:center; justify-content:center; z-index:50; cursor:zoom-out; padding:16px; }
+  .visor img { max-width:100%; max-height:100%; object-fit:contain; background:#fff; border-radius:10px; }
+</style>
+</head>
+<body>
+
+<div id="banner" class="banner oculto">Modo de prueba: los productos y pedidos no están conectados a la tienda real.</div>
+
+<header>
+  <h1>El Farito Refaccionaria</h1>
+  <input id="buscar" class="search" type="search" placeholder="Buscar refacción o accesorio">
+  <button id="btnWa" class="btn" type="button">WhatsApp</button>
+</header>
+
+<main>
+  <section>
+    <p id="estado" class="aviso">Cargando productos…</p>
+    <div id="catalogo" class="grid"></div>
+    <section style="margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;">
+      <h2 style="font-size:16px;font-weight:500;margin:0 0 8px;">Quiénes somos</h2>
+      <p id="quienesTxt" style="margin:0 0 8px;font-size:14px;"></p>
+      <p id="horarioTxt" style="margin:0;font-size:13px;color:var(--sub);"></p>
+    </section>
+  </section>
+
+  <aside class="panel">
+    <h2>Tu pedido</h2>
+    <div id="carrito"></div>
+    <div class="total"><span>Total</span><span id="totalTxt">$0</span></div>
+
+    <form id="formPedido">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" required maxlength="80">
+
+      <label for="telefono">Teléfono (10 dígitos)</label>
+      <input id="telefono" required inputmode="numeric" pattern="[0-9]{10}" maxlength="10">
+
+      <label for="entrega">Entrega</label>
+      <select id="entrega">
+        <option value="recoger">Recoger en tienda</option>
+        <option value="envio">Envío a domicilio</option>
+      </select>
+
+      <div id="bloqueEnvio" class="oculto">
+        <label for="cp">Código postal</label>
+        <input id="cp" inputmode="numeric" maxlength="5">
+        <label for="direccion">Dirección</label>
+        <textarea id="direccion" rows="2" maxlength="200"></textarea>
+        <div class="aviso" id="avisoCp"></div>
+        <div class="aviso" id="costoEnvioTxt"></div>
+      </div>
+
+      <label for="pago">Forma de pago</label>
+      <select id="pago">
+        <option value="recoger">Pago al recoger</option>
+        <option value="transferencia">Transferencia</option>
+        <option value="tarjeta" id="optTarjeta">Tarjeta (próximamente)</option>
+      </select>
+      <div class="aviso" id="avisoPago"></div>
+
+      <label for="nota">Nota (opcional)</label>
+      <input id="nota" maxlength="300">
+
+      <div class="error" id="error"></div>
+      <button id="btnPedir" class="btn primary" type="submit" style="width:100%;margin-top:10px;">Apartar pedido</button>
+    </form>
+
+    <div id="confirmacion" class="ok oculto" style="margin-top:12px;"></div>
+  </aside>
+</main>
+
+<footer>Precios con IVA incluido. Ventas sujetas a disponibilidad. Horario: <span id="horarioFooter"></span>.</footer>
+
+<script>
+window.FARITO_CONFIG = {
+  USE_MOCK: false,
+  SUPABASE_URL: "https://czcyzecpushhbnjgrqdc.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_QKjNeYbHp8RleBZ_uQLeIQ_3TImjV15",
+  WHATSAPP: "9987660914",
+  HORARIO: "Lunes a sábado 9:00 a 19:00",
+  ENVIO_COSTO: 20,
+  CP_ENVIO: ["77400"],
+  TRANSFER_HORAS: 24,
+  TARJETA_ACTIVA: false
+};
+</script>
+<script>
+(() => {
+  const C = window.FARITO_CONFIG;
+  const $ = (id) => document.getElementById(id);
+  const money = (n) => "$" + Number(n).toLocaleString("es-MX", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+
+  let productos = [];   // filas de web_productos: codigo, nombre, precio, disponible, foto, marca, departamento
+  let carrito = {};     // codigo -> { p, cant }
+
+  // Datos de prueba, con los mismos nombres de columna que web_productos
+  const MOCK = [
+    { codigo: "ACEI-0009", nombre: "Aceite 4T 20W50 SL Motolub 946 ml", precio: 167, disponible: 5, foto: "", marca: "Motolub", departamento: "Aceites y Lubricantes" },
+    { codigo: "ACEI-0014", nombre: "Líquido de frenos LF3 300 ml", precio: 77, disponible: 0, foto: "", marca: "Motolub", departamento: "Frenos y Balatas" },
+    { codigo: "C7HSA", nombre: "Bujía NGK C7HSA", precio: 66, disponible: 10, foto: "", marca: "NGK", departamento: "Eléctrico y Baterías" }
+  ];
+
+  async function cargarProductos() {
+    if (C.USE_MOCK) return MOCK;
+    const url = `${C.SUPABASE_URL}/rest/v1/web_productos?select=codigo,nombre,precio,disponible,foto,marca,departamento`;
+    const r = await fetch(url, { headers: { apikey: C.SUPABASE_ANON_KEY, Authorization: `Bearer ${C.SUPABASE_ANON_KEY}` } });
+    if (!r.ok) throw new Error("No se pudo cargar el catálogo (" + r.status + ")");
+    return r.json();
+  }
+
+  function pintarCatalogo() {
+    const q = $("buscar").value.trim().toLowerCase();
+    const cont = $("catalogo");
+    cont.innerHTML = "";
+    const lista = productos.filter(p => (p.nombre || "").toLowerCase().includes(q));
+    lista.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+      if (p.foto) {
+        const img = document.createElement("img");
+        img.src = p.foto; img.alt = p.nombre || "";
+        img.onclick = () => abrirVisor(p.foto, p.nombre || "");
+        card.appendChild(img);
+      }
+      const n = document.createElement("div"); n.className = "nombre"; n.textContent = p.nombre || p.codigo;
+      const pr = document.createElement("div"); pr.className = "precio"; pr.textContent = money(p.precio);
+      const d = document.createElement("div");
+      const hay = Number(p.disponible) > 0;
+      d.className = "disp" + (hay ? "" : " agotado");
+      d.textContent = hay ? "Disponible" : "Agotado";
+      const b = document.createElement("button");
+      b.className = "btn primary"; b.type = "button"; b.textContent = "Agregar";
+      b.disabled = !hay;
+      b.onclick = () => agregar(p);
+      card.append(n, pr, d, b);
+      cont.appendChild(card);
+    });
+    $("estado").textContent = lista.length ? "" : "No hay productos con ese nombre.";
+  }
+
+  function abrirVisor(src, alt) {
+    const v = document.createElement("div");
+    v.className = "visor";
+    const im = document.createElement("img");
+    im.src = src; im.alt = alt;
+    v.appendChild(im);
+    v.onclick = () => v.remove();
+    document.body.appendChild(v);
+  }
+
+  function agregar(p) {
+    const c = carrito[p.codigo] || { p, cant: 0 };
+    if (c.cant + 1 > Number(p.disponible)) {
+      $("error").textContent = "Solo hay " + p.disponible + " piezas de ese producto.";
+      return;
+    }
+    c.cant += 1;
+    carrito[p.codigo] = c;
+    $("error").textContent = "";
+    pintarCarrito();
+  }
+
+  function quitar(codigo) {
+    const c = carrito[codigo];
+    if (!c) return;
+    c.cant -= 1;
+    if (c.cant <= 0) delete carrito[codigo];
+    pintarCarrito();
+  }
+
+  function subtotal() {
+    return Object.values(carrito).reduce((s, c) => s + c.cant * Number(c.p.precio), 0);
+  }
+
+  function costoEnvio() {
+    return $("entrega").value === "envio" ? Number(C.ENVIO_COSTO) : 0;
+  }
+
+  function pintarCarrito() {
+    const cont = $("carrito");
+    cont.innerHTML = "";
+    const items = Object.values(carrito);
+    if (!items.length) {
+      const v = document.createElement("p"); v.className = "aviso"; v.textContent = "Tu carrito está vacío.";
+      cont.appendChild(v);
+    }
+    items.forEach(c => {
+      const row = document.createElement("div"); row.className = "linea";
+      const t = document.createElement("span"); t.textContent = `${c.cant} × ${c.p.nombre || c.p.codigo}`;
+      const rm = document.createElement("button"); rm.type = "button"; rm.textContent = "Quitar";
+      rm.onclick = () => quitar(c.p.codigo);
+      row.append(t, rm);
+      cont.appendChild(row);
+    });
+    $("totalTxt").textContent = money(subtotal() + costoEnvio());
+    $("btnPedir").disabled = items.length === 0;
+  }
+
+  function actualizarEntrega() {
+    const envio = $("entrega").value === "envio";
+    $("bloqueEnvio").classList.toggle("oculto", !envio);
+    $("cp").required = envio;
+    $("direccion").required = envio;
+    $("costoEnvioTxt").textContent = envio ? `Costo de envío: ${money(C.ENVIO_COSTO)}` : "";
+    if (!envio) $("avisoCp").textContent = "";
+    pintarCarrito();
+  }
+
+  function validarCp() {
+    if (!$("cp").value) { $("avisoCp").textContent = ""; return true; }
+    const ok = C.CP_ENVIO.includes($("cp").value.trim());
+    $("avisoCp").textContent = ok ? "Hacemos envío en tu zona." : "Por ahora no enviamos a ese código postal. Escríbenos por WhatsApp.";
+    return ok;
+  }
+
+  function actualizarPago() {
+    const v = $("pago").value;
+    $("avisoPago").textContent =
+      v === "transferencia" ? `Tienes ${C.TRANSFER_HORAS} horas para transferir. Si no llega el pago, el apartado se libera.` :
+      v === "recoger" ? "Pagas en tienda al recoger tu pedido." : "";
+  }
+
+  async function enviarPedido() {
+    const items = Object.values(carrito);
+    const entrega = $("entrega").value;
+    const cuerpo = {
+      p_nombre: $("nombre").value.trim(),
+      p_telefono: $("telefono").value.trim(),
+      p_entrega: entrega,
+      p_direccion: entrega === "envio" ? $("direccion").value.trim() : null,
+      p_cp: entrega === "envio" ? $("cp").value.trim() : null,
+      p_nota: $("nota").value.trim() || null,
+      p_metodo_pago: $("pago").value,
+      // Solo códigos y cantidades: el precio lo calcula la base de datos.
+      p_partidas: items.map(c => ({ codigo: c.p.codigo, cantidad: c.cant }))
+    };
+
+    if (C.USE_MOCK) return { folio: "PRUEBA-" + Math.floor(1000 + Math.random() * 9000), total: subtotal() + costoEnvio() };
+
+    const r = await fetch(`${C.SUPABASE_URL}/rest/v1/rpc/crear_pedido_web`, {
+      method: "POST",
+      headers: { apikey: C.SUPABASE_ANON_KEY, Authorization: `Bearer ${C.SUPABASE_ANON_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify(cuerpo)
+    });
+    if (!r.ok) {
+      let msg = "No se pudo registrar el pedido";
+      try { const j = await r.json(); if (j && j.message) msg = j.message; } catch (_) {}
+      throw new Error(msg);
+    }
+    const id = await r.json();
+    return { folio: String(id).slice(0, 8).toUpperCase(), total: subtotal() + costoEnvio() };
+  }
+
+  $("formPedido").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    $("error").textContent = "";
+    if (!Object.values(carrito).length) return;
+    if ($("entrega").value === "envio" && !validarCp()) { $("error").textContent = "Revisa el código postal."; return; }
+    if ($("pago").value === "tarjeta") { $("error").textContent = "El pago con tarjeta aún no está disponible."; return; }
+
+    $("btnPedir").disabled = true;
+    try {
+      const res = await enviarPedido();
+      $("formPedido").classList.add("oculto");
+      const conf = $("confirmacion");
+      conf.textContent = `Pedido ${res.folio} apartado. Total ${money(res.total)}. ` +
+        ($("entrega").value === "recoger" ? "Pasa a recogerlo en tienda." : "Te confirmamos el envío por WhatsApp.") +
+        ($("pago").value === "transferencia" ? ` Realiza tu transferencia en ${C.TRANSFER_HORAS} horas.` : "");
+      conf.classList.remove("oculto");
+      carrito = {};
+      pintarCarrito();
+    } catch (err) {
+      $("error").textContent = err.message + ". Intenta de nuevo o escríbenos por WhatsApp.";
+      $("btnPedir").disabled = false;
+    }
+  });
+
+  $("buscar").addEventListener("input", pintarCatalogo);
+  $("btnWa").addEventListener("click", () => { if (C.WHATSAPP) window.open("https://wa.me/52" + C.WHATSAPP, "_blank"); });
+  $("entrega").addEventListener("change", actualizarEntrega);
+  $("pago").addEventListener("change", actualizarPago);
+  $("cp").addEventListener("input", validarCp);
+
+  function init() {
+    $("banner").classList.toggle("oculto", !C.USE_MOCK);
+    $("horarioTxt").textContent = C.HORARIO;
+    $("horarioFooter").textContent = C.HORARIO;
+    $("optTarjeta").disabled = !C.TARJETA_ACTIVA;
+    actualizarPago();
+    actualizarEntrega();
+    pintarCarrito();
+    cargarProductos().then(p => { productos = p; pintarCatalogo(); })
+      .catch(err => { $("estado").textContent = err.message; });
+  }
+  init();
+})();
+</script>
+</body>
+</html>
