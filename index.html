@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Farito - Refacciones para tu moto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+.page{width:1280px;height:2140px;box-sizing:border-box;background:#f5f6f8;font-family:Inter,Arial,sans-serif;color:#18222f;display:flex;flex-direction:column}
+.util{height:36px;background:#142a44;color:#c9d3df;font-size:13px;display:flex;align-items:center;justify-content:space-between;padding:0 48px}
+.head{height:76px;background:#1f3b5c;display:flex;align-items:center;gap:28px;padding:0 48px;color:#fff}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:24px;letter-spacing:-0.3px}
+.logo i{width:34px;height:34px;border-radius:8px;background:#f0a030;display:inline-block}
+.search{flex:1;height:46px;border-radius:8px;background:#fff;color:#6b7785;display:flex;align-items:center;padding:0 18px;font-size:15px}
+.nav{display:flex;gap:22px;font-size:15px;font-weight:500}
+.cart{background:#f0a030;color:#18222f;font-weight:700;padding:11px 16px;border-radius:8px;font-size:15px}
+.hero{height:440px;padding:0 48px;display:flex;align-items:center;gap:56px;background:#1f3b5c;color:#fff}
+.hero-txt{flex:1;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:1.6px;color:#f0a030;text-transform:uppercase}
+.h1{font-size:52px;line-height:1.08;font-weight:800;letter-spacing:-1px;margin:0}
+.lead{font-size:18px;line-height:1.5;color:#d6dee8;margin:0;max-width:560px}
+.btns{display:flex;gap:14px;margin-top:6px}
+.btn{height:50px;padding:0 26px;border-radius:8px;font-weight:700;font-size:16px;display:flex;align-items:center}
+.btn-p{background:#f0a030;color:#18222f}
+.btn-s{border:2px solid #fff;color:#fff}
+.hero-card{width:420px;height:320px;background:#fff;border-radius:16px;padding:22px;box-sizing:border-box;color:#18222f;display:flex;flex-direction:column;gap:12px}
+.hero-img{flex:1;background:#eef1f5;border-radius:12px;position:relative}
+.badge{position:absolute;top:12px;left:12px;background:#d32f2f;color:#fff;font-weight:800;font-size:15px;padding:5px 10px;border-radius:6px}
+.chips{padding:22px 48px;display:flex;gap:12px;background:#fff;border-bottom:1px solid #e3e7ed}
+.chip{padding:10px 18px;border-radius:999px;background:#f0f3f7;font-size:15px;font-weight:600;color:#1f3b5c}
+.sec{padding:36px 48px 8px 48px;display:flex;flex-direction:column;gap:18px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between}
+.sec-t{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin:0}
+.link{font-size:15px;font-weight:700;color:#b26a00}
+.reloj{font-size:14px;font-weight:700;color:#b26a00;background:#fff4e0;padding:6px 12px;border-radius:999px}
+.grid4{display:flex;gap:20px}
+.card{width:284px;background:#fff;border-radius:14px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;border:1px solid #e6eaf0}
+.card .img{height:170px;background:#eef1f5;border-radius:10px;position:relative}
+.card .name{font-size:16px;font-weight:600;line-height:1.3;min-height:42px}
+.card .old{font-size:14px;color:#7a8594;text-decoration:line-through}
+.card .now{font-size:24px;font-weight:800;color:#18222f}
+.card .stock{font-size:13px;font-weight:600;color:#2e7d32}
+.card .add{height:42px;border-radius:8px;background:#1f3b5c;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;margin-top:4px}
+.perm{margin:28px 48px 0 48px;background:#fff4e0;border:1px solid #f5d9a6;border-radius:18px;padding:34px 40px;display:flex;gap:40px;align-items:center}
+.perm-l{flex:1;display:flex;flex-direction:column;gap:10px}
+.perm-t{font-size:30px;font-weight:800;margin:0;letter-spacing:-0.5px}
+.perm-p{font-size:16px;line-height:1.5;color:#4a5566;margin:0}
+.steps{display:flex;gap:16px}
+.step{width:190px;background:#fff;border-radius:12px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px}
+.num{width:30px;height:30px;border-radius:50%;background:#1f3b5c;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+.step b{font-size:15px}
+.step span{font-size:13px;color:#4a5566;line-height:1.4}
+.body{display:flex;gap:28px;padding:28px 48px 0 48px}
+.side{width:220px;background:#fff;border-radius:14px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;height:fit-content;border:1px solid #e6eaf0}
+.side h4{margin:0;font-size:15px}
+.side .opt{font-size:14px;color:#4a5566}
+.cgrid{display:flex;flex-wrap:wrap;gap:20px;flex:1}
+.c3{width:212px;background:#fff;border-radius:14px;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;border:1px solid #e6eaf0}
+.c3 .img{height:130px;background:#eef1f5;border-radius:10px}
+.c3 .name{font-size:14px;font-weight:600;min-height:38px;line-height:1.3}
+.c3 .now{font-size:19px;font-weight:800}
+.c3 .stock{font-size:12px;font-weight:600;color:#2e7d32}
+.trust{margin:34px 48px 0 48px;display:flex;gap:16px}
+.tr{flex:1;background:#fff;border-radius:12px;padding:18px 20px;border:1px solid #e6eaf0;display:flex;flex-direction:column;gap:4px}
+.tr b{font-size:16px}
+.tr span{font-size:14px;color:#4a5566}
+.foot{margin-top:auto;height:200px;background:#142a44;color:#c9d3df;padding:36px 48px;box-sizing:border-box;display:flex;gap:60px;font-size:14px}
+.foot h5{margin:0 0 10px 0;color:#fff;font-size:15px}
+.foot p{margin:0 0 6px 0}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="util"><span>Envíos a todo el país · Pago en tienda o por transferencia</span><span>Atención por WhatsApp</span></div>
+<div class="head">
+<div class="logo"><i></i>El Farito</div>
+<div class="search">Busca por nombre o código de pieza</div>
+<div class="nav"><span>Categorías</span><span>Ofertas</span><span>Usados y permutas</span><span>Contacto</span></div>
+<div class="cart">Mi carrito</div>
+</div>
+<div class="hero">
+<div class="hero-txt">
+<span class="eyebrow">Refacciones para tu moto</span>
+<h1 class="h1">Encuentra tu pieza y llévala hoy</h1>
+<p class="lead">Refacciones originales y alternas, con existencia real y precio de tienda. Si tu pieza ya no la usas, también te la recibimos en permuta.</p>
+<div class="btns"><span class="btn btn-p">Ver ofertas</span><span class="btn btn-s">Buscar mi pieza</span></div>
+</div>
+<div class="hero-card">
+<div class="hero-img"><span class="badge">-25 %</span></div>
+<div style="font-weight:700;font-size:17px">Casco 1/2 Cachucha Rojo</div>
+<div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:15px;color:#7a8594;text-decoration:line-through">$278.00</span><span style="font-size:26px;font-weight:800;color:#18222f">$208.50</span></div>
+</div>
+</div>
+<div class="chips"><span class="chip">Frenos</span><span class="chip">Motor</span><span class="chip">Eléctrico</span><span class="chip">Llantas</span><span class="chip">Transmisión</span><span class="chip">Aceites</span><span class="chip">Accesorios</span><span class="chip">Cascos</span></div>
+<div class="sec">
+<div class="sec-h"><h2 class="sec-t">Ofertas de esta semana</h2><span class="reloj">Termina en 6 d 23 h</span></div>
+<div class="grid4">
+<div class="card"><div class="img"><span class="badge">-25 %</span></div><div class="name">Casco 1/2 Cachucha Rojo</div><div class="old">$278.00</div><div class="now">$208.50</div><div class="stock">En existencia</div><div class="add">Agregar al carrito</div></div>
+<div class="card"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="old">[Precio anterior]</div><div class="now">[Precio oferta]</div><div class="stock">[Existencia]</div><div class="add">Agregar al carrito</div></div>
+<div class="card"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="old">[Precio anterior]</div><div class="now">[Precio oferta]</div><div class="stock">[Existencia]</div><div class="add">Agregar al carrito</div></div>
+<div class="card"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="old">[Precio anterior]</div><div class="now">[Precio oferta]</div><div class="stock">[Existencia]</div><div class="add">Agregar al carrito</div></div>
+</div>
+</div>
+<div class="perm">
+<div class="perm-l">
+<span class="eyebrow" style="color:#b26a00">Nuevo servicio</span>
+<h2 class="perm-t">Usados y permutas</h2>
+<p class="perm-p">¿Tienes una pieza que ya no usas? La cambias por una refacción o la vendemos con nosotros. Revisamos cada publicación antes de mostrarla.</p>
+<div style="margin-top:6px"><span class="btn btn-p" style="display:inline-flex">Quiero mi permuta</span></div>
+</div>
+<div class="steps">
+<div class="step"><div class="num">1</div><b>Describe tu pieza</b><span>Marca, modelo y estado.</span></div>
+<div class="step"><div class="num">2</div><b>Sube fotos</b><span>Desde tu celular, en 3 fotos.</span></div>
+<div class="step"><div class="num">3</div><b>Te confirmamos</b><span>Te damos el valor de permuta.</span></div>
+</div>
+</div>
+<div class="body">
+<div class="side">
+<h4>Marca</h4><span class="opt">Honda</span><span class="opt">Italika</span><span class="opt">Yamaha</span><span class="opt">Bajaj</span>
+<h4>Precio</h4><span class="opt">Hasta $500</span><span class="opt">$500 a $1,000</span><span class="opt">Más de $1,000</span>
+<h4>Disponibilidad</h4><span class="opt">Solo en existencia</span>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div class="sec-h"><h2 class="sec-t" style="font-size:24px">Catálogo</h2><span class="link">Ver todo</span></div>
+<div class="cgrid">
+<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+</div>
+</div>
+</div>
+<div class="trust">
+<div class="tr"><b>Existencia real</b><span>Solo ves lo que tenemos en tienda.</span></div>
+<div class="tr"><b>Pago seguro</b><span>En tienda o por transferencia.</span></div>
+<div class="tr"><b>Te asesoramos</b><span>Por WhatsApp, antes y después de comprar.</span></div>
+</div>
+<div class="foot">
+<div><h5>El Farito</h5><p>Mercado del Cañotal, Local 31 Exterior</p><p>Isla Mujeres, Quintana Roo</p><p>Tienda física: 9 am a 5 pm</p><p>Tienda virtual: 24/7</p></div>
+<div><h5>Ayuda</h5><p>Cómo comprar</p><p>Envíos y pagos</p><p>Usados y permutas</p></div>
+<div><h5>Contacto</h5><p>WhatsApp: 998 766 0914</p><p>Teléfono: 998 766 0914</p></div>
+</div>
+</div>
+</body>
+</html>
