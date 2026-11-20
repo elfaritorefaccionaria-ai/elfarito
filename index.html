@@ -154,5 +154,23 @@ a{color:inherit;text-decoration:none}
 <div><h5>Contacto</h5><p>WhatsApp: 998 766 0914</p><p>Teléfono: 998 766 0914</p></div>
 </div>
 </div>
+<script>
+(function(){
+  var grid = document.querySelector(".cgrid");
+  if (!grid) return;
+  fetch("products.json", {cache: "no-store"}).then(function(r){ return r.json(); }).then(function(data){
+    grid.textContent = "";
+    (data.productos || []).forEach(function(p){
+      var card = document.createElement("div");
+      card.className = "c3";
+      var img = document.createElement("div"); img.className = "img"; card.appendChild(img);
+      var name = document.createElement("div"); name.className = "name"; name.textContent = p.nombre; card.appendChild(name);
+      var price = document.createElement("div"); price.className = "now"; price.textContent = "$" + Number(p.precio).toFixed(2); card.appendChild(price);
+      var stock = document.createElement("div"); stock.className = "stock"; stock.textContent = p.existencia > 0 ? "En existencia" : "Agotado"; card.appendChild(stock);
+      grid.appendChild(card);
+    });
+  }).catch(function(){ /* sin catalogo: se queda la maqueta */ });
+})();
+</script>
 </body>
 </html>
