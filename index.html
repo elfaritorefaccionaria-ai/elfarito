@@ -76,6 +76,7 @@ a{color:inherit;text-decoration:none}
 .wa{display:flex;align-items:center;height:42px;padding:0 16px;border-radius:8px;background:#25d366;color:#fff;font-weight:700;font-size:15px;margin-left:auto}
 .wa small{display:block;font-weight:500;font-size:12px}
 .head .wa + .cart{margin-left:12px}
+.img:empty::after{content:"Foto próximamente";display:flex;align-items:center;justify-content:center;height:100%;min-height:80px;color:#7a8594;font-size:13px}
 </style>
 </head>
 <body>
@@ -107,9 +108,6 @@ a{color:inherit;text-decoration:none}
 <div class="sec-h"><h2 class="sec-t">Ofertas de esta semana</h2><span class="reloj">Termina en 6 d 23 h</span></div>
 <div class="grid4">
 <div class="card"><div class="img"><span class="badge">-25 %</span></div><div class="name">Casco 1/2 Cachucha Rojo</div><div class="old">$278.00</div><div class="now">$208.50</div><div class="stock">En existencia</div><div class="add">Agregar al carrito</div></div>
-<div class="card"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="old">[Precio anterior]</div><div class="now">[Precio oferta]</div><div class="stock">[Existencia]</div><div class="add">Agregar al carrito</div></div>
-<div class="card"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="old">[Precio anterior]</div><div class="now">[Precio oferta]</div><div class="stock">[Existencia]</div><div class="add">Agregar al carrito</div></div>
-<div class="card"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="old">[Precio anterior]</div><div class="now">[Precio oferta]</div><div class="stock">[Existencia]</div><div class="add">Agregar al carrito</div></div>
 </div>
 </div>
 <div class="perm">
@@ -134,12 +132,7 @@ a{color:inherit;text-decoration:none}
 <div style="flex:1;display:flex;flex-direction:column;gap:18px">
 <div class="sec-h"><h2 class="sec-t" style="font-size:24px">Catálogo</h2><span class="link">Ver todo</span></div>
 <div class="cgrid">
-<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
-<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
-<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
-<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
-<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
-<div class="c3"><div class="img"></div><div class="name">[Nombre de la pieza]</div><div class="now">[Precio]</div><div class="stock">En existencia</div></div>
+<div style="color:#7a8594;font-size:14px">Cargando catálogo…</div>
 </div>
 </div>
 </div>
@@ -156,6 +149,9 @@ a{color:inherit;text-decoration:none}
 </div>
 <script>
 (function(){
+  function limpiarNombre(n){
+    return String(n || "").replace(/^@/, "").replace(/\s*=\s*\d+/g, "").split(/\s+VENTA\b|\s+PRECIO X\b/i)[0].trim();
+  }
   var grid = document.querySelector(".cgrid");
   if (!grid) return;
   fetch("products.json", {cache: "no-store"}).then(function(r){ return r.json(); }).then(function(data){
@@ -164,7 +160,7 @@ a{color:inherit;text-decoration:none}
       var card = document.createElement("div");
       card.className = "c3";
       var img = document.createElement("div"); img.className = "img"; card.appendChild(img);
-      var name = document.createElement("div"); name.className = "name"; name.textContent = p.nombre; card.appendChild(name);
+      var name = document.createElement("div"); name.className = "name"; name.textContent = limpiarNombre(p.nombre); card.appendChild(name);
       var price = document.createElement("div"); price.className = "now"; price.textContent = "$" + Number(p.precio).toFixed(2); card.appendChild(price);
       var stock = document.createElement("div"); stock.className = "stock"; stock.textContent = p.existencia > 0 ? "En existencia" : "Agotado"; card.appendChild(stock);
       grid.appendChild(card);
