@@ -3,113 +3,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mercado Local en Línea - Refacciones para tu moto</title>
+<title>Mercado Local en Línea - Isla Mujeres</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0}
 a{color:inherit;text-decoration:none}
-.page{width:1280px;height:2140px;box-sizing:border-box;background:#f5f6f8;font-family:Inter,Arial,sans-serif;color:#18222f;display:flex;flex-direction:column}
-.util{height:36px;background:#142a44;color:#c9d3df;font-size:13px;display:flex;align-items:center;justify-content:space-between;padding:0 48px}
-.head{height:76px;background:#1f3b5c;display:flex;align-items:center;gap:28px;padding:0 48px;color:#fff}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:24px;letter-spacing:-0.3px}
-.logo i{width:34px;height:34px;border-radius:8px;background:#f0a030;display:inline-block}
-.search{flex:1;height:46px;border-radius:8px;background:#fff;color:#6b7785;display:flex;align-items:center;padding:0 18px;font-size:15px}
-.nav{display:flex;gap:22px;font-size:15px;font-weight:500}
+.page{width:100%;max-width:1280px;margin:0 auto;box-sizing:border-box;background:#f5f6f8;font-family:Inter,Arial,sans-serif;color:#18222f;display:flex;flex-direction:column;min-height:100vh}
+.head{background:#1f3b5c;display:flex;align-items:center;gap:24px;padding:14px 48px;color:#fff;flex-wrap:wrap;box-sizing:border-box}
+.brand{display:flex;flex-direction:column;min-width:240px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-0.3px}
+.logo i{width:32px;height:32px;border-radius:8px;background:#f0a030;display:inline-block;flex-shrink:0}
+.sub{font-size:13px;color:#c9d3df;margin-top:2px;padding-left:42px}
+.search{flex:1;min-width:260px;height:46px;border-radius:8px;background:#fff;color:#18222f;border:none;padding:0 18px;font-size:15px;font-family:inherit;box-sizing:border-box;outline:none}
+.nav{display:flex;gap:20px;font-size:15px;font-weight:500}
 .cart{background:#f0a030;color:#18222f;font-weight:700;padding:11px 16px;border-radius:8px;font-size:15px}
-.hero{height:440px;padding:0 48px;display:flex;align-items:center;gap:56px;background:#1f3b5c;color:#fff}
-.hero-txt{flex:1;display:flex;flex-direction:column;gap:18px}
+.trust-bar{min-height:52px;background:#fff;border-bottom:1px solid #e3e7ed;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 48px;box-sizing:border-box;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 16px;border-radius:999px;background:#fff4e0;color:#8a5200;font-size:14px;font-weight:600}
+.pill:before{content:"";width:8px;height:8px;border-radius:50%;background:#f0a030}
+.hero{padding:40px 48px;display:flex;align-items:center;gap:56px;background:#1f3b5c;color:#fff;box-sizing:border-box;flex-wrap:wrap}
+.hero-txt{flex:1;min-width:300px;display:flex;flex-direction:column;gap:18px}
 .eyebrow{font-size:14px;font-weight:700;letter-spacing:1.6px;color:#f0a030;text-transform:uppercase}
-.h1{font-size:52px;line-height:1.08;font-weight:800;letter-spacing:-1px;margin:0}
+.h1{font-size:46px;line-height:1.08;font-weight:800;letter-spacing:-1px;margin:0}
 .lead{font-size:18px;line-height:1.5;color:#d6dee8;margin:0;max-width:560px}
-.btns{display:flex;gap:14px;margin-top:6px}
-.btn{height:50px;padding:0 26px;border-radius:8px;font-weight:700;font-size:16px;display:flex;align-items:center}
+.btns{display:flex;gap:14px;margin-top:6px;flex-wrap:wrap}
+.btn{height:50px;padding:0 26px;border-radius:8px;font-weight:700;font-size:16px;display:flex;align-items:center;cursor:pointer;border:none;font-family:inherit}
 .btn-p{background:#f0a030;color:#18222f}
-.btn-s{border:2px solid #fff;color:#fff}
-.hero-card{width:420px;height:320px;background:#fff;border-radius:16px;padding:22px;box-sizing:border-box;color:#18222f;display:flex;flex-direction:column;gap:12px}
-.hero-img{flex:1;background:#eef1f5;border-radius:12px;position:relative}
+.btn-s{border:2px solid #fff;color:#fff;background:transparent}
+.hero-card{width:380px;min-height:300px;background:#fff;border-radius:16px;padding:22px;box-sizing:border-box;color:#18222f;display:flex;flex-direction:column;gap:12px}
+.hero-card.vacio{display:none}
+.hero-img{height:200px;background:#eef1f5;border-radius:12px;position:relative;display:flex;align-items:center;justify-content:center;color:#7a8594;font-size:13px}
 .badge{position:absolute;top:12px;left:12px;background:#d32f2f;color:#fff;font-weight:800;font-size:15px;padding:5px 10px;border-radius:6px}
-.chips{padding:22px 48px;display:flex;gap:12px;background:#fff;border-bottom:1px solid #e3e7ed}
+.banner{margin:24px 48px 0 48px;background:#d32f2f;color:#fff;border-radius:12px;padding:18px 28px;display:flex;align-items:center;gap:24px;box-sizing:border-box}
+.banner.vacio{display:none}
+.banner-txt{flex:1;display:flex;flex-direction:column;gap:4px}
+.banner-k{font-size:13px;font-weight:700;letter-spacing:1.5px}
+.banner-n{font-size:24px;font-weight:800}
+.banner-p{font-size:14px}
+.banner-dots{display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.45);border:none;padding:0;cursor:pointer}
+.dot.on{background:#fff}
+.banner-ver{background:#fff;color:#b71c1c;font-weight:800;padding:12px 20px;border-radius:8px;font-size:15px;white-space:nowrap}
+.chips{padding:22px 48px;display:flex;gap:12px;background:#fff;border-bottom:1px solid #e3e7ed;flex-wrap:wrap}
 .chip{padding:10px 18px;border-radius:999px;background:#f0f3f7;font-size:15px;font-weight:600;color:#1f3b5c}
 .sec{padding:36px 48px 8px 48px;display:flex;flex-direction:column;gap:18px}
-.sec-h{display:flex;align-items:baseline;justify-content:space-between}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .sec-t{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin:0}
-.link{font-size:15px;font-weight:700;color:#b26a00}
 .reloj{font-size:14px;font-weight:700;color:#b26a00;background:#fff4e0;padding:6px 12px;border-radius:999px}
-.grid4{display:flex;gap:20px}
-.card{width:284px;background:#fff;border-radius:14px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;border:1px solid #e6eaf0}
-.card .img{height:170px;background:#eef1f5;border-radius:10px;position:relative}
-.card .name{font-size:16px;font-weight:600;line-height:1.3;min-height:42px}
+.grid{display:flex;gap:20px;flex-wrap:wrap}
+.card{width:270px;background:#fff;border-radius:14px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;border:1px solid #e6eaf0}
+.card .img{height:160px;background:#eef1f5;border-radius:10px;position:relative}
+.card .name{font-size:15px;font-weight:600;line-height:1.3;min-height:40px}
 .card .old{font-size:14px;color:#7a8594;text-decoration:line-through}
-.card .now{font-size:24px;font-weight:800;color:#18222f}
+.card .now{font-size:22px;font-weight:800;color:#18222f}
 .card .stock{font-size:13px;font-weight:600;color:#2e7d32}
-.card .add{height:42px;border-radius:8px;background:#1f3b5c;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;margin-top:4px}
-.perm{margin:28px 48px 0 48px;background:#fff4e0;border:1px solid #f5d9a6;border-radius:18px;padding:34px 40px;display:flex;gap:40px;align-items:center}
-.perm-l{flex:1;display:flex;flex-direction:column;gap:10px}
+.card .tag{font-size:12px;font-weight:700;color:#b71c1c}
+.img:empty::after{content:"Foto próximamente";display:flex;align-items:center;justify-content:center;height:100%;min-height:80px;color:#7a8594;font-size:13px}
+.perm{margin:28px 48px 0 48px;background:#fff4e0;border:1px solid #f5d9a6;border-radius:18px;padding:34px 40px;display:flex;gap:40px;align-items:center;flex-wrap:wrap;box-sizing:border-box}
+.perm-l{flex:1;min-width:280px;display:flex;flex-direction:column;gap:10px}
 .perm-t{font-size:30px;font-weight:800;margin:0;letter-spacing:-0.5px}
 .perm-p{font-size:16px;line-height:1.5;color:#4a5566;margin:0}
-.steps{display:flex;gap:16px}
+.steps{display:flex;gap:16px;flex-wrap:wrap}
 .step{width:190px;background:#fff;border-radius:12px;padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px}
 .num{width:30px;height:30px;border-radius:50%;background:#1f3b5c;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
 .step b{font-size:15px}
 .step span{font-size:13px;color:#4a5566;line-height:1.4}
-.body{display:flex;gap:28px;padding:28px 48px 0 48px}
+.body{display:flex;gap:28px;padding:28px 48px 0 48px;flex-wrap:wrap;box-sizing:border-box}
 .side{width:220px;background:#fff;border-radius:14px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;height:fit-content;border:1px solid #e6eaf0}
 .side h4{margin:0;font-size:15px}
 .side .opt{font-size:14px;color:#4a5566}
-.cgrid{display:flex;flex-wrap:wrap;gap:20px;flex:1}
-.c3{width:212px;background:#fff;border-radius:14px;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;border:1px solid #e6eaf0}
-.c3 .img{height:130px;background:#eef1f5;border-radius:10px}
-.c3 .name{font-size:14px;font-weight:600;min-height:38px;line-height:1.3}
-.c3 .now{font-size:19px;font-weight:800}
-.c3 .stock{font-size:12px;font-weight:600;color:#2e7d32}
-.trust{margin:34px 48px 0 48px;display:flex;gap:16px}
-.tr{flex:1;background:#fff;border-radius:12px;padding:18px 20px;border:1px solid #e6eaf0;display:flex;flex-direction:column;gap:4px}
+.catalogo{flex:1;min-width:300px;display:flex;flex-direction:column;gap:18px}
+.cgrid{display:flex;flex-wrap:wrap;gap:20px}
+.trust{margin:34px 48px 0 48px;display:flex;gap:16px;flex-wrap:wrap}
+.tr{flex:1;min-width:220px;background:#fff;border-radius:12px;padding:18px 20px;border:1px solid #e6eaf0;display:flex;flex-direction:column;gap:4px}
 .tr b{font-size:16px}
 .tr span{font-size:14px;color:#4a5566}
-.foot{margin-top:auto;height:200px;background:#142a44;color:#c9d3df;padding:36px 48px;box-sizing:border-box;display:flex;gap:60px;font-size:14px}
+.foot{margin-top:40px;background:#142a44;color:#c9d3df;padding:36px 48px;box-sizing:border-box;display:flex;gap:60px;font-size:14px;flex-wrap:wrap}
 .foot h5{margin:0 0 10px 0;color:#fff;font-size:15px}
 .foot p{margin:0 0 6px 0}
-.trust-bar{height:52px;background:#fff;border-bottom:1px solid #e3e7ed;display:flex;align-items:center;justify-content:center;gap:16px;padding:0 48px;box-sizing:border-box}
-.pill{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 16px;border-radius:999px;background:#fff4e0;color:#8a5200;font-size:14px;font-weight:600}
-.pill:before{content:"";width:8px;height:8px;border-radius:50%;background:#f0a030}
-.wa{display:flex;align-items:center;height:42px;padding:0 16px;border-radius:8px;background:#25d366;color:#fff;font-weight:700;font-size:15px;margin-left:auto}
-.wa small{display:block;font-weight:500;font-size:12px}
-.head .wa + .cart{margin-left:12px}
-.img:empty::after{content:"Foto próximamente";display:flex;align-items:center;justify-content:center;height:100%;min-height:80px;color:#7a8594;font-size:13px}
+.vacio-msg{color:#7a8594;font-size:14px}
 </style>
 </head>
 <body>
 <div class="page">
 
 <div class="head">
+<div class="brand">
 <div class="logo"><i></i>Mercado Local en Línea</div>
-<div class="search">Busca por nombre o código de pieza</div>
+<div class="sub">Isla Mujeres</div>
+</div>
+<input id="q" class="search" type="search" placeholder="Busca por nombre o código de pieza" autocomplete="off">
 <div class="nav"><span>Categorías</span><span>Ofertas</span><span>Usados y permutas</span><span>Contacto</span></div>
-<a class="wa" href="https://wa.me/529987660914"><span>WhatsApp<small>998 766 0914</small></span></a><div class="cart">Mi carrito</div>
+<div class="cart">Mi carrito</div>
 </div>
 <div class="trust-bar"><span class="pill">Envíos a todo el país</span><span class="pill">Pago en tienda o por transferencia</span></div>
+
 <div class="hero">
 <div class="hero-txt">
-<span class="eyebrow">Refacciones de tu moto de la comunidad</span>
+<span class="eyebrow">Refacciones para tu moto</span>
 <h1 class="h1">Encuentra tu pieza y llévala hoy</h1>
-<p class="lead">Refacciones originales y alternas, con existencia real y precio de tienda. Si tu pieza ya no la usas, también te la recibimos en permuta.</p>
-<div class="btns"><span class="btn btn-p">Ver ofertas</span><span class="btn btn-s">Buscar mi pieza</span></div>
+<p class="lead">Compra y vende refacciones de la comunidad de Isla Mujeres. Los vendedores publican sus piezas y la tienda oficial aparece con su etiqueta.</p>
+<div class="btns"><span class="btn btn-p" onclick="document.getElementById('ofertas').scrollIntoView()">Ver ofertas</span><span class="btn btn-s" onclick="document.getElementById('q').focus()">Buscar mi pieza</span></div>
 </div>
-<div class="hero-card">
-<div class="hero-img"><span class="badge">-25 %</span></div>
-<div style="font-weight:700;font-size:17px">Casco 1/2 Cachucha Rojo</div>
-<div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:15px;color:#7a8594;text-decoration:line-through">$278.00</span><span style="font-size:26px;font-weight:800;color:#18222f">$208.50</span></div>
+<div id="heroCard" class="hero-card vacio">
+<div class="hero-img"><span class="badge" id="hBadge"></span><span id="hFoto">Foto próximamente</span></div>
+<div id="hNombre" style="font-weight:700;font-size:17px"></div>
+<div style="display:flex;gap:12px;align-items:baseline"><span id="hViejo" style="font-size:15px;color:#7a8594;text-decoration:line-through"></span><span id="hNuevo" style="font-size:26px;font-weight:800;color:#18222f"></span></div>
 </div>
 </div>
-<div style="margin:24px 48px 0 48px;background:#d32f2f;color:#ffffff;border-radius:12px;padding:18px 28px;display:flex;align-items:center;gap:24px;box-sizing:border-box"><div style="flex:1;display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:700;letter-spacing:1.5px">OFERTA · TIENDA OFICIAL EL FARITO</span><span style="font-size:24px;font-weight:800">Casco 1/2 Cachucha Rojo: -25 %</span><span style="font-size:14px">Antes $278.00 · Ahora $208.50 · Termina en 6 d 23 h</span></div><span style="background:#ffffff;color:#b71c1c;font-weight:800;padding:12px 20px;border-radius:8px;font-size:15px">Ver oferta</span></div>
+
+<div id="banner" class="banner vacio">
+<div class="banner-txt">
+<span class="banner-k">OFERTA · TIENDA OFICIAL EL FARITO</span>
+<span class="banner-n" id="bNombre"></span>
+<span class="banner-p" id="bPrecio"></span>
+</div>
+<div class="banner-dots" id="bDots"></div>
+<span class="banner-ver" onclick="document.getElementById('ofertas').scrollIntoView()">Ver ofertas</span>
+</div>
+
 <div class="chips"><span class="chip">Frenos</span><span class="chip">Motor</span><span class="chip">Eléctrico</span><span class="chip">Llantas</span><span class="chip">Transmisión</span><span class="chip">Aceites</span><span class="chip">Accesorios</span><span class="chip">Cascos</span></div>
-<div class="sec">
-<div class="sec-h"><h2 class="sec-t">Ofertas de esta semana</h2><span class="reloj">Termina en 6 d 23 h</span></div>
-<div class="grid4">
-<div class="card"><div class="img"><span class="badge">-25 %</span></div><div class="name">Casco 1/2 Cachucha Rojo</div><div class="old">$278.00</div><div class="now">$208.50</div><div class="stock">En existencia</div><div class="add">Agregar al carrito</div></div>
+
+<div class="sec" id="ofertas">
+<div class="sec-h"><h2 class="sec-t">Ofertas de esta semana</h2><span class="reloj" id="relojOf"></span></div>
+<div class="grid" id="gridOfertas"><div class="vacio-msg">Cargando ofertas…</div></div>
 </div>
-</div>
+
 <div class="perm">
 <div class="perm-l">
 <span class="eyebrow" style="color:#b26a00">Nuevo servicio</span>
@@ -123,50 +142,156 @@ a{color:inherit;text-decoration:none}
 <div class="step"><div class="num">3</div><b>Te confirmamos</b><span>Te damos el valor de permuta.</span></div>
 </div>
 </div>
+
 <div class="body">
 <div class="side">
 <h4>Marca</h4><span class="opt">Honda</span><span class="opt">Italika</span><span class="opt">Yamaha</span><span class="opt">Bajaj</span>
 <h4>Precio</h4><span class="opt">Hasta $500</span><span class="opt">$500 a $1,000</span><span class="opt">Más de $1,000</span>
 <h4>Disponibilidad</h4><span class="opt">Solo en existencia</span>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;gap:18px">
-<div class="sec-h"><h2 class="sec-t" style="font-size:24px">Catálogo</h2><span class="link">Ver todo</span></div>
-<div class="cgrid">
-<div style="color:#7a8594;font-size:14px">Cargando catálogo…</div>
+<div class="catalogo">
+<div class="sec-h"><h2 class="sec-t" style="font-size:24px">Catálogo</h2><span id="conteo" style="font-size:14px;color:#4a5566"></span></div>
+<div class="cgrid" id="grid"><div class="vacio-msg">Cargando catálogo…</div></div>
 </div>
 </div>
-</div>
+
 <div class="trust">
-<div class="tr"><b>Existencia real</b><span>Solo ves lo que tenemos en tienda.</span></div>
+<div class="tr"><b>Existencia real</b><span>Solo ves lo que el vendedor tiene disponible.</span></div>
 <div class="tr"><b>Pago seguro</b><span>En tienda o por transferencia.</span></div>
-<div class="tr"><b>Te asesoramos</b><span>Por WhatsApp, antes y después de comprar.</span></div>
+<div class="tr"><b>Te asesoramos</b><span>Antes y después de comprar.</span></div>
 </div>
+
 <div class="foot">
-<div><h5>Tienda oficial: El Farito</h5><p>Mercado del Cañotal, Local 31 Exterior</p><p>Isla Mujeres, Quintana Roo</p><p>Tienda física: 9 am a 5 pm</p><p>Tienda virtual: 24/7</p></div>
+<div><h5>Mercado Local en Línea</h5><p>Isla Mujeres, Quintana Roo</p></div>
+<div><h5>Tienda oficial: El Farito</h5><p>Mercado del Cañotal, Local 31 Exterior</p><p>Tienda física: 9 am a 5 pm</p><p>Tienda virtual: 24/7</p><p>Teléfono: 998 766 0914</p></div>
 <div><h5>Ayuda</h5><p>Cómo comprar</p><p>Envíos y pagos</p><p>Usados y permutas</p></div>
-<div><h5>Contacto</h5><p>WhatsApp: 998 766 0914</p><p>Teléfono: 998 766 0914</p></div>
 </div>
 </div>
+
 <script>
 (function(){
   function limpiarNombre(n){
-    var r = String(n || "").replace(/^@/, "").replace(/\s*=\s*\d+/g, "").split(/\s+VENTA\b|\s+PRECIO X\b/i)[0].trim();
-    return r.length > 60 ? r.slice(0, 57) + "…" : r;
+    return String(n || "").replace(/^@/, "").replace(/\s*=\s*\d+/g, "").split(/\s+VENTA\b|\s+PRECIO X\b/i)[0].trim();
   }
-  var grid = document.querySelector(".cgrid");
-  if (!grid) return;
-  fetch("products.json", {cache: "no-store"}).then(function(r){ return r.json(); }).then(function(data){
-    grid.textContent = "";
-    (data.productos || []).forEach(function(p){
-      var card = document.createElement("div");
-      card.className = "c3";
-      var img = document.createElement("div"); img.className = "img"; card.appendChild(img);
-      var name = document.createElement("div"); name.className = "name"; name.textContent = limpiarNombre(p.nombre); card.appendChild(name);
-      var price = document.createElement("div"); price.className = "now"; price.textContent = "$" + Number(p.precio).toFixed(2); card.appendChild(price);
-      var stock = document.createElement("div"); stock.className = "stock"; stock.textContent = p.existencia > 0 ? "En existencia" : "Agotado"; card.appendChild(stock);
-      grid.appendChild(card);
+  function money(v){ return "$" + Number(v).toFixed(2); }
+  function fecha(iso){
+    if (!iso) return "";
+    var p = iso.split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : iso;
+  }
+  function dias(iso){
+    if (!iso) return "";
+    var d = Math.ceil((new Date(iso + "T23:59:59") - new Date()) / 86400000);
+    return d > 0 ? "Termina en " + d + " d" : "Último día";
+  }
+  function el(tag, cls, txt){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt !== undefined) e.textContent = txt;
+    return e;
+  }
+  var todos = [], ofertas = [], actual = 0, timer = null, filtro = "";
+
+  function coincide(p){
+    if (!filtro) return true;
+    var t = (limpiarNombre(p.nombre) + " " + (p.codigo || "")).toLowerCase();
+    return t.indexOf(filtro) !== -1;
+  }
+
+  function tarjeta(p){
+    var card = el("div", "card");
+    card.appendChild(el("div", "img"));
+    card.appendChild(el("div", "name", limpiarNombre(p.nombre)));
+    if (p.oferta){
+      card.appendChild(el("div", "old", money(p.precio)));
+      card.appendChild(el("div", "now", money(p.oferta.precio_oferta)));
+      card.appendChild(el("div", "tag", "-" + p.oferta.porcentaje + " % · " + dias(p.oferta.vence)));
+    } else {
+      card.appendChild(el("div", "now", money(p.precio)));
+    }
+    card.appendChild(el("div", "stock", p.existencia > 0 ? "En existencia" : "Agotado"));
+    return card;
+  }
+
+  function pintarOfertas(){
+    var g = document.getElementById("gridOfertas");
+    g.textContent = "";
+    var lista = ofertas.filter(coincide);
+    if (!lista.length){
+      g.appendChild(el("div", "vacio-msg", filtro ? "Sin ofertas para esa búsqueda." : "Por ahora no hay ofertas publicadas."));
+      return;
+    }
+    lista.forEach(function(p){ g.appendChild(tarjeta(p)); });
+    var primera = ofertas[0];
+    document.getElementById("relojOf").textContent = primera && primera.oferta ? dias(primera.oferta.vence) : "";
+  }
+
+  function pintarCatalogo(){
+    var g = document.getElementById("grid");
+    g.textContent = "";
+    var lista = todos.filter(coincide);
+    document.getElementById("conteo").textContent = lista.length + " productos";
+    if (!lista.length){
+      g.appendChild(el("div", "vacio-msg", "No encontramos piezas con esa búsqueda."));
+      return;
+    }
+    lista.forEach(function(p){ g.appendChild(tarjeta(p)); });
+  }
+
+  function mostrarSlide(i){
+    if (!ofertas.length) return;
+    actual = (i + ofertas.length) % ofertas.length;
+    var p = ofertas[actual];
+    document.getElementById("bNombre").textContent = limpiarNombre(p.nombre);
+    document.getElementById("bPrecio").textContent =
+      money(p.oferta.precio_oferta) + " (antes " + money(p.precio) + ") · -" + p.oferta.porcentaje + " % · " + dias(p.oferta.vence);
+    var hc = document.getElementById("heroCard");
+    hc.classList.remove("vacio");
+    document.getElementById("hBadge").textContent = "-" + p.oferta.porcentaje + " %";
+    document.getElementById("hNombre").textContent = limpiarNombre(p.nombre);
+    document.getElementById("hViejo").textContent = money(p.precio);
+    document.getElementById("hNuevo").textContent = money(p.oferta.precio_oferta);
+    var dots = document.querySelectorAll("#bDots .dot");
+    dots.forEach(function(d, k){ d.classList.toggle("on", k === actual); });
+  }
+
+  function armarCarrusel(){
+    var banner = document.getElementById("banner");
+    var dots = document.getElementById("bDots");
+    dots.textContent = "";
+    if (!ofertas.length){ banner.classList.add("vacio"); document.getElementById("heroCard").classList.add("vacio"); return; }
+    banner.classList.remove("vacio");
+    ofertas.forEach(function(_p, k){
+      var b = el("button", "dot");
+      b.setAttribute("aria-label", "Oferta " + (k + 1));
+      b.onclick = function(){ mostrarSlide(k); reiniciar(); };
+      dots.appendChild(b);
     });
-  }).catch(function(){ /* sin catalogo: se queda la maqueta */ });
+    mostrarSlide(0);
+    reiniciar();
+  }
+
+  function reiniciar(){
+    if (timer) clearInterval(timer);
+    if (ofertas.length > 1) timer = setInterval(function(){ mostrarSlide(actual + 1); }, 5000);
+  }
+
+  document.getElementById("q").addEventListener("input", function(e){
+    filtro = e.target.value.trim().toLowerCase();
+    pintarOfertas();
+    pintarCatalogo();
+  });
+
+  fetch("products.json", {cache: "no-store"}).then(function(r){ return r.json(); }).then(function(data){
+    todos = (data.productos || []);
+    ofertas = todos.filter(function(p){ return p.oferta; });
+    pintarOfertas();
+    pintarCatalogo();
+    armarCarrusel();
+  }).catch(function(){
+    document.getElementById("grid").textContent = "";
+    document.getElementById("grid").appendChild(el("div", "vacio-msg", "No pudimos cargar el catálogo. Intenta de nuevo más tarde."));
+  });
 })();
 </script>
 </body>
