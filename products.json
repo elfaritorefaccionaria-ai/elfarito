@@ -5,19 +5,22 @@
    "codigo": "C7HSA",
    "nombre": "Bujia Moto Ngk",
    "precio": 66.0,
-   "existencia": 30.0
+   "existencia": 30.0,
+   "foto": "imagenes/C7HSA.jpg"
   },
   {
    "codigo": "C9E/12",
    "nombre": "Bujia Moto Ngk C9e",
    "precio": 75.0,
-   "existencia": 20.0
+   "existencia": 20.0,
+   "foto": "imagenes/C9E_12.jpg"
   },
   {
    "codigo": "D8EA",
    "nombre": "Bujia D8 Ngk",
    "precio": 66.0,
-   "existencia": 30.0
+   "existencia": 30.0,
+   "foto": "imagenes/D8EA.jpg"
   },
   {
    "codigo": "E02020014",
@@ -56,7 +59,8 @@
     "porcentaje": 25.0,
     "precio_oferta": 93.0,
     "vence": "2026-11-28"
-   }
+   },
+   "foto": "imagenes/CLAXON_NE_RO_AZ.jpg"
   },
   {
    "codigo": "7502206202408",
@@ -67,7 +71,8 @@
     "porcentaje": 25.0,
     "precio_oferta": 133.12,
     "vence": "2026-12-06"
-   }
+   },
+   "foto": "imagenes/7502206202408.jpg"
   },
   {
    "codigo": "7502206202415",
@@ -78,7 +83,8 @@
     "porcentaje": 25.0,
     "precio_oferta": 45.0,
     "vence": "2026-12-06"
-   }
+   },
+   "foto": "imagenes/7502206202415.jpg"
   }
  ]
 }
