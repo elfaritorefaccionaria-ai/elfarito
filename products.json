@@ -1,1 +1,84 @@
-{"actualizado":"2026-11-20","productos":[{"codigo":"D8EA","nombre":"@Bujia D8 Ngk =2597 VENTA X MULTIPLO DE 10 PRECIO X PIEZA","marca":"","precio":66.0,"existencia":30,"descripcion":""},{"codigo":"C7HSA","nombre":"@Bujia Moto Ngk =2599 VENTA X MULTIPLO DE 10 PRECIO X PIEZA","marca":"","precio":66.0,"existencia":30,"descripcion":""},{"codigo":"C9E/12","nombre":"@Bujia Moto Ngk C9e VENTA MULTIPLO 10 PRECIO X PIEZA","marca":"","precio":75.0,"existencia":20,"descripcion":""},{"codigo":"E02020014","nombre":"BUJIA ITALIKA GOLD GDR8EA 25Z, 150SZ, 150Z, 170Z, 250SZ, 250Z, 250Z NEGRA, ATV250 CON REVERSA, BS250, DM150, DM200, DM250, DT125, DT125 CLÁSICA, DT125 DELIVERY, DT125 SPORT","marca":"ITALIKA","precio":68.0,"existencia":40,"descripcion":""},{"codigo":"CLAXON NE RO AZ","nombre":"Claxon Caracol Varios","marca":"","precio":124.0,"existencia":8,"descripcion":""}]}
+{
+ "actualizado": "2026-11-21",
+ "productos": [
+  {
+   "codigo": "C7HSA",
+   "nombre": "Bujia Moto Ngk",
+   "precio": 66.0,
+   "existencia": 30.0
+  },
+  {
+   "codigo": "C9E/12",
+   "nombre": "Bujia Moto Ngk C9e",
+   "precio": 75.0,
+   "existencia": 20.0
+  },
+  {
+   "codigo": "D8EA",
+   "nombre": "Bujia D8 Ngk",
+   "precio": 66.0,
+   "existencia": 30.0
+  },
+  {
+   "codigo": "E02020014",
+   "nombre": "BUJIA ITALIKA GOLD GDR8EA 25Z, 150SZ, 150Z, 170Z, 250SZ, …",
+   "precio": 68.0,
+   "existencia": 40.0
+  },
+  {
+   "codigo": "TDS-19-0038",
+   "nombre": "Camara 2.75 3.00 18 TR4 Montana",
+   "precio": 72.0,
+   "existencia": 30.0,
+   "oferta": {
+    "porcentaje": 15.0,
+    "precio_oferta": 61.2,
+    "vence": "2026-11-28"
+   }
+  },
+  {
+   "codigo": "TDS-19-10008",
+   "nombre": "Camara 2.75 3.00 17 TR4 Montana F15010249 90 90 17",
+   "precio": 72.0,
+   "existencia": 30.0,
+   "oferta": {
+    "porcentaje": 15.0,
+    "precio_oferta": 61.2,
+    "vence": "2026-11-28"
+   }
+  },
+  {
+   "codigo": "CLAXON NE RO AZ",
+   "nombre": "Claxon Caracol Varios",
+   "precio": 124.0,
+   "existencia": 8.0,
+   "oferta": {
+    "porcentaje": 25.0,
+    "precio_oferta": 93.0,
+    "vence": "2026-11-28"
+   }
+  },
+  {
+   "codigo": "7502206202408",
+   "nombre": "Liquido de Frenos LF3 946 ML",
+   "precio": 177.5,
+   "existencia": 121.0,
+   "oferta": {
+    "porcentaje": 25.0,
+    "precio_oferta": 133.12,
+    "vence": "2026-12-06"
+   }
+  },
+  {
+   "codigo": "7502206202415",
+   "nombre": "Liquido de Frenos Motolub 300ML",
+   "precio": 60.0,
+   "existencia": 29.0,
+   "oferta": {
+    "porcentaje": 25.0,
+    "precio_oferta": 45.0,
+    "vence": "2026-12-06"
+   }
+  }
+ ]
+}
