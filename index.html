@@ -17,6 +17,10 @@ a{color:inherit;text-decoration:none}
 .sub{font-size:13px;color:#c9d3df;margin-top:2px;padding-left:42px}
 .search{flex:1;min-width:260px;height:46px;border-radius:8px;background:#fff;color:#18222f;border:none;padding:0 18px;font-size:15px;font-family:inherit;box-sizing:border-box;outline:none}
 .nav{display:flex;gap:20px;font-size:15px;font-weight:500}
+.nav a{color:inherit;text-decoration:none}
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:90px}
+a.cart{text-decoration:none;display:inline-block}
 .cart{background:#f0a030;color:#18222f;font-weight:700;padding:11px 16px;border-radius:8px;font-size:15px}
 .trust-bar{min-height:52px;background:#fff;border-bottom:1px solid #e3e7ed;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 48px;box-sizing:border-box;flex-wrap:wrap}
 .pill{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 16px;border-radius:999px;background:#fff4e0;color:#8a5200;font-size:14px;font-weight:600}
@@ -93,8 +97,8 @@ a{color:inherit;text-decoration:none}
 <div class="sub">Isla Mujeres</div>
 </div>
 <input id="q" class="search" type="search" placeholder="Busca por nombre o código de pieza" autocomplete="off">
-<div class="nav"><span>Categorías</span><span>Ofertas</span><span>Usados y permutas</span><span>Contacto</span></div>
-<div class="cart">Mi carrito</div>
+<div class="nav"><a href="#catalogo">Categorías</a><a href="#ofertas">Ofertas</a><a href="#permutas">Usados y permutas</a><a href="#contacto">Contacto</a></div>
+<a class="cart" href="#contacto" title="El carrito llega pronto. Por ahora escribe a El Farito.">Mi carrito</a>
 </div>
 <div class="trust-bar"><span class="pill">Envíos a toda la Isla</span><span class="pill">Pago en tienda o por transferencia</span></div>
 
@@ -129,7 +133,7 @@ a{color:inherit;text-decoration:none}
 <div class="grid" id="gridOfertas"><div class="vacio-msg">Cargando ofertas…</div></div>
 </div>
 
-<div class="perm">
+<div class="perm" id="permutas">
 <div class="perm-l">
 <span class="eyebrow" style="color:#b26a00">Nuevo servicio</span>
 <h2 class="perm-t">Usados y permutas</h2>
@@ -150,7 +154,7 @@ a{color:inherit;text-decoration:none}
 <h4>Disponibilidad</h4><span class="opt">Solo en existencia</span>
 </div>
 <div class="catalogo">
-<div class="sec-h"><h2 class="sec-t" style="font-size:24px">Catálogo</h2><span id="conteo" style="font-size:14px;color:#4a5566"></span></div>
+<div class="sec-h" id="catalogo"><h2 class="sec-t" style="font-size:24px">Catálogo</h2><span id="conteo" style="font-size:14px;color:#4a5566"></span></div>
 <div class="cgrid" id="grid"><div class="vacio-msg">Cargando catálogo…</div></div>
 </div>
 </div>
@@ -161,7 +165,7 @@ a{color:inherit;text-decoration:none}
 <div class="tr"><b>Te asesoramos</b><span>Antes y después de comprar.</span></div>
 </div>
 
-<div class="foot">
+<div class="foot" id="contacto">
 <div><h5>Mercado Local en Línea</h5><p>Isla Mujeres, Quintana Roo</p></div>
 <div><h5>Tienda oficial: El Farito</h5><p>Mercado del Cañotal, Local 31 Exterior</p><p>Tienda física: 9 am a 5 pm</p><p>Tienda virtual: 24/7</p><p>Teléfono: 998 766 0914</p><p><a href="https://wa.me/529987660914?text=Hola%2C%20quiero%20info%20de%20una%20pieza" style="color:#fff;font-weight:700">WhatsApp de El Farito</a></p></div>
 <div><h5>Ayuda</h5><p>Cómo comprar</p><p>Envíos y pagos</p><p>Usados y permutas</p></div>
