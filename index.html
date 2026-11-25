@@ -31,7 +31,16 @@ button.cart{border:none;font-family:inherit;cursor:pointer}
 .err{color:#b71c1c;font-size:13px;min-height:18px;margin-bottom:8px}
 .ok-msg{margin-top:14px;font-size:15px;font-weight:600;color:#2e7d32}
 .nota-c{color:#4a5566;font-size:13px}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:#1f3b5c;color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:15px;z-index:50;max-width:90vw;text-align:center}
+body{padding-bottom:64px}
+.barra-c{position:fixed;left:0;right:0;bottom:0;background:#1f3b5c;color:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;z-index:40;font-weight:600;font-size:15px;box-sizing:border-box}
+.barra-c[hidden]{display:none}
+.barra-c button{height:40px;padding:0 18px;border:none;border-radius:8px;background:#f0a030;color:#18222f;font-weight:700;cursor:pointer;font-family:inherit}
+.confirm-c{margin-top:14px;padding:16px;border:1px solid #f0a030;border-radius:12px;background:#fff8ec;max-width:720px}
+.confirm-c[hidden]{display:none}
+.confirm-t{font-weight:800;font-size:17px;margin:0 0 6px;color:#18222f}
+.confirm-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn-s{background:#eef1f5;color:#1f3b5c}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:84px;background:#1f3b5c;color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:15px;z-index:50;max-width:90vw;text-align:center}
 .search{flex:1;min-width:260px;height:46px;border-radius:8px;background:#fff;color:#18222f;border:none;padding:0 18px;font-size:15px;font-family:inherit;box-sizing:border-box;outline:none}
 .nav{display:flex;gap:20px;font-size:15px;font-weight:500}
 .nav a{color:inherit;text-decoration:none}
@@ -182,6 +191,7 @@ a.cart{text-decoration:none;display:inline-block}
 <div class="tr"><b>Te asesoramos</b><span>Antes y después de comprar.</span></div>
 </div>
 
+<div id="barraC" class="barra-c" hidden><span id="barraTxt"></span><button id="barraBtn" type="button">Ver carrito</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <section class="carrito-sec" id="carrito" hidden>
 <h2 class="sec-t">Tu carrito</h2>
@@ -198,6 +208,11 @@ a.cart{text-decoration:none;display:inline-block}
 </div>
 <div id="errC" class="err"></div>
 <button id="btnEnviarPedido" class="btn btn-p" type="button">Enviar pedido</button>
+<div id="confirmC" class="confirm-c" hidden>
+<p class="confirm-t">¿Es todo lo que buscabas?</p>
+<p id="resumenC"></p>
+<div class="confirm-btns"><button id="btnConfirmarPedido" class="btn btn-p" type="button">Sí, confirmar y enviar</button><button id="btnSeguirComprando" class="btn btn-s" type="button">Seguir comprando</button></div>
+</div>
 <p class="nota-c">El precio final y la existencia los confirma El Farito al atender tu pedido.</p>
 </div>
 <div id="okC" class="ok-msg" hidden></div>
@@ -338,6 +353,35 @@ a.cart{text-decoration:none;display:inline-block}
     });
     document.getElementById("totalC").textContent = keys.length ? "Total estimado: " + money(totalCarrito()) : "";
     document.getElementById("btnEnviarPedido").disabled = !keys.length;
+    document.getElementById("barraC").hidden = !keys.length;
+    document.getElementById("barraTxt").textContent = keys.length ? piezasCarrito() + " pieza(s) · " + money(totalCarrito()) : "";
+    if (!keys.length) document.getElementById("confirmC").hidden = true;
+  }
+
+  function mensajeFalta(){
+    if (!Object.keys(carrito).length) return "Tu carrito está vacío.";
+    var nombre = document.getElementById("cNombre").value.trim();
+    var tel = document.getElementById("cTel").value.replace(/\D/g, "");
+    var entrega = document.getElementById("cEntrega").value;
+    var dir = document.getElementById("cDir").value.trim();
+    var cp = document.getElementById("cCP").value.trim();
+    if (nombre.length < 2) return "Escribe tu nombre.";
+    if (!/^[0-9]{10}$/.test(tel)) return "El teléfono debe tener 10 dígitos.";
+    if (entrega === "envio" && !dir) return "Escribe la dirección para el envío.";
+    if (entrega === "envio" && !/^[0-9]{5}$/.test(cp)) return "El código postal debe tener 5 dígitos.";
+    return "";
+  }
+
+  function pedirConfirmacion(){
+    var err = document.getElementById("errC");
+    var box = document.getElementById("confirmC");
+    document.getElementById("okC").hidden = true;
+    var falta = mensajeFalta();
+    if (falta){ err.textContent = falta; box.hidden = true; return; }
+    err.textContent = "";
+    document.getElementById("resumenC").textContent = "Vas a enviar " + piezasCarrito() + " pieza(s) por " + money(totalCarrito()) + ". El Farito lo confirma contigo por teléfono.";
+    box.hidden = false;
+    box.scrollIntoView();
   }
 
   function enviarPedido(){
@@ -391,7 +435,20 @@ a.cart{text-decoration:none;display:inline-block}
     sec.hidden = false;
     sec.scrollIntoView();
   });
-  document.getElementById("btnEnviarPedido").addEventListener("click", enviarPedido);
+  document.getElementById("btnEnviarPedido").addEventListener("click", pedirConfirmacion);
+  document.getElementById("btnConfirmarPedido").addEventListener("click", function(){
+    document.getElementById("confirmC").hidden = true;
+    enviarPedido();
+  });
+  document.getElementById("btnSeguirComprando").addEventListener("click", function(){
+    document.getElementById("confirmC").hidden = true;
+    document.getElementById("catalogo").scrollIntoView();
+  });
+  document.getElementById("barraBtn").addEventListener("click", function(){
+    var sec = document.getElementById("carrito");
+    sec.hidden = false;
+    sec.scrollIntoView();
+  });
   document.getElementById("cEntrega").addEventListener("change", function(e){
     document.getElementById("cDir").parentNode.style.opacity = e.target.value === "envio" ? "1" : "0.5";
     document.getElementById("cCP").parentNode.style.opacity = e.target.value === "envio" ? "1" : "0.5";
