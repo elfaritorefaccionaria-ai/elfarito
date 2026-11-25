@@ -126,7 +126,7 @@ a.cart{text-decoration:none;display:inline-block}
 <span class="banner-ver" onclick="document.getElementById('ofertas').scrollIntoView()">Ver ofertas</span>
 </div>
 
-<div class="chips"><span class="chip">Frenos</span><span class="chip">Motor</span><span class="chip">Eléctrico</span><span class="chip">Llantas</span><span class="chip">Transmisión</span><span class="chip">Aceites</span><span class="chip">Accesorios</span><span class="chip">Cascos</span></div>
+<div class="chips" id="chips"><span class="chip" data-k="freno,balata,disco">Frenos</span><span class="chip" data-k="motor,motolub">Motor</span><span class="chip" data-k="claxon,bujia">Eléctrico</span><span class="chip" data-k="camara,llanta">Llantas</span><span class="chip" data-k="transmis,cadena,clutch">Transmisión</span><span class="chip" data-k="aceite">Aceites</span><span class="chip" data-k="tapon,accesorio">Accesorios</span><span class="chip" data-k="casco">Cascos</span></div>
 
 <div class="sec" id="ofertas">
 <div class="sec-h"><h2 class="sec-t">Ofertas de esta semana</h2><span class="reloj" id="relojOf"></span></div>
@@ -194,11 +194,12 @@ a.cart{text-decoration:none;display:inline-block}
     if (txt !== undefined) e.textContent = txt;
     return e;
   }
-  var todos = [], ofertas = [], actual = 0, timer = null, filtro = "";
+  var todos = [], ofertas = [], actual = 0, timer = null, filtro = "", categoria = null;
 
   function coincide(p){
-    if (!filtro) return true;
     var t = (limpiarNombre(p.nombre) + " " + (p.codigo || "")).toLowerCase();
+    if (categoria) return categoria.some(function(k){ return t.indexOf(k) !== -1; });
+    if (!filtro) return true;
     return t.indexOf(filtro) !== -1;
   }
 
@@ -288,8 +289,25 @@ a.cart{text-decoration:none;display:inline-block}
 
   document.getElementById("q").addEventListener("input", function(e){
     filtro = e.target.value.trim().toLowerCase();
+    categoria = null;
+    marcarChip(null);
     pintarOfertas();
     pintarCatalogo();
+  });
+
+  function marcarChip(el){
+    document.querySelectorAll(".chip").forEach(function(c){ c.style.background = c === el ? "#1f3b5c" : ""; c.style.color = c === el ? "#fff" : ""; });
+  }
+  document.querySelectorAll(".chip").forEach(function(c){
+    c.addEventListener("click", function(){
+      if (c.style.background) { categoria = null; marcarChip(null); }
+      else { categoria = c.getAttribute("data-k").split(","); marcarChip(c); }
+      document.getElementById("q").value = "";
+      filtro = "";
+      pintarOfertas();
+      pintarCatalogo();
+      document.getElementById("catalogo").scrollIntoView();
+    });
   });
 
   fetch("products.json", {cache: "no-store"}).then(function(r){ return r.json(); }).then(function(data){
