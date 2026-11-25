@@ -31,6 +31,7 @@ button.cart{border:none;font-family:inherit;cursor:pointer}
 .err{color:#b71c1c;font-size:13px;min-height:18px;margin-bottom:8px}
 .ok-msg{margin-top:14px;font-size:15px;font-weight:600;color:#2e7d32}
 .nota-c{color:#4a5566;font-size:13px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:#1f3b5c;color:#fff;padding:12px 20px;border-radius:10px;font-weight:600;font-size:15px;z-index:50;max-width:90vw;text-align:center}
 .search{flex:1;min-width:260px;height:46px;border-radius:8px;background:#fff;color:#18222f;border:none;padding:0 18px;font-size:15px;font-family:inherit;box-sizing:border-box;outline:none}
 .nav{display:flex;gap:20px;font-size:15px;font-weight:500}
 .nav a{color:inherit;text-decoration:none}
@@ -181,6 +182,7 @@ a.cart{text-decoration:none;display:inline-block}
 <div class="tr"><b>Te asesoramos</b><span>Antes y después de comprar.</span></div>
 </div>
 
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <section class="carrito-sec" id="carrito" hidden>
 <h2 class="sec-t">Tu carrito</h2>
 <div id="lineasC"></div>
@@ -258,7 +260,7 @@ a.cart{text-decoration:none;display:inline-block}
     b.className = "add-btn";
     b.textContent = p.existencia > 0 ? "Agregar al carrito" : "Agotado";
     b.disabled = !(p.existencia > 0);
-    b.onclick = function(){ agregarCarrito(p); };
+    b.onclick = function(){ agregarCarrito(p, b); };
     card.appendChild(b);
     return card;
   }
@@ -272,14 +274,29 @@ a.cart{text-decoration:none;display:inline-block}
   function piezasCarrito(){ return Object.keys(carrito).reduce(function(s, k){ return s + carrito[k].cantidad; }, 0); }
   function redondear(x){ return Math.round(x * 100) / 100; }
 
-  function agregarCarrito(p){
+  var toastTimer = null;
+  function avisar(txt){
+    var t = document.getElementById("toast");
+    t.textContent = txt;
+    t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.hidden = true; }, 2200);
+  }
+
+  function agregarCarrito(p, btn){
     var it = carrito[p.codigo] || { codigo: p.codigo, nombre: limpiarNombre(p.nombre), precio: precioDe(p), cantidad: 0 };
-    if (it.cantidad >= 99) return;
+    if (it.cantidad >= 99){ avisar("Ya tienes el máximo de esta pieza en tu carrito."); return; }
     it.cantidad += 1;
     it.precio = precioDe(p);
     carrito[p.codigo] = it;
     guardarCarrito();
     pintarCarrito();
+    avisar("Agregado: " + it.nombre + " · En tu carrito: " + it.cantidad + " (toca Mi carrito para ver)");
+    if (btn){
+      btn.textContent = "¡Agregado! (" + it.cantidad + ")";
+      clearTimeout(btn._t);
+      btn._t = setTimeout(function(){ btn.textContent = "Agregar al carrito"; }, 1500);
+    }
   }
 
   function cambiarCarrito(codigo, d){
