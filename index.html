@@ -16,6 +16,21 @@ a{color:inherit;text-decoration:none}
 .logo i{width:32px;height:32px;border-radius:8px;background:#f0a030;display:inline-block;flex-shrink:0}
 .sub{font-size:13px;color:#c9d3df;margin-top:2px;padding-left:42px}
 .buscar-btn{height:46px;width:48px;border:none;border-radius:8px;background:#f0a030;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:-6px}
+.add-btn{margin-top:auto;height:42px;border:none;border-radius:8px;background:#1f3b5c;color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.add-btn:disabled{background:#c5ccd6;cursor:not-allowed}
+button.cart{border:none;font-family:inherit;cursor:pointer}
+.carrito-sec{padding:28px 48px;background:#fff;border-top:1px solid #e3e7ed;box-sizing:border-box}
+.fila-c{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #eef1f5;flex-wrap:wrap}
+.fila-c .ctl button{width:32px;height:32px;border:none;border-radius:6px;background:#eef1f5;font-size:16px;cursor:pointer;font-family:inherit}
+.total-c{font-weight:800;font-size:20px;margin:14px 0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:720px;margin-bottom:12px}
+.form-grid label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600;color:#1f3b5c}
+.form-grid .ancho{grid-column:1/3}
+.form-grid input,.form-grid select,.form-grid textarea{height:42px;border:1px solid #cfd6df;border-radius:8px;padding:0 12px;font-size:15px;font-family:inherit;box-sizing:border-box}
+.form-grid textarea{height:auto;padding:10px 12px}
+.err{color:#b71c1c;font-size:13px;min-height:18px;margin-bottom:8px}
+.ok-msg{margin-top:14px;font-size:15px;font-weight:600;color:#2e7d32}
+.nota-c{color:#4a5566;font-size:13px}
 .search{flex:1;min-width:260px;height:46px;border-radius:8px;background:#fff;color:#18222f;border:none;padding:0 18px;font-size:15px;font-family:inherit;box-sizing:border-box;outline:none}
 .nav{display:flex;gap:20px;font-size:15px;font-weight:500}
 .nav a{color:inherit;text-decoration:none}
@@ -99,7 +114,7 @@ a.cart{text-decoration:none;display:inline-block}
 </div>
 <input id="q" class="search" type="search" placeholder="Busca por nombre o código de pieza" autocomplete="off"><button id="btnBuscar" class="buscar-btn" type="button" aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#18222f" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></button>
 <div class="nav"><a href="#catalogo">Categorías</a><a href="#ofertas">Ofertas</a><a href="#permutas">Usados y permutas</a><a href="#contacto">Contacto</a></div>
-<a class="cart" href="#contacto" title="El carrito llega pronto. Por ahora escribe a El Farito.">Mi carrito</a>
+<button class="cart" id="btnCarrito" type="button">Mi carrito <span id="cuentaC">(0)</span></button>
 </div>
 <div class="trust-bar"><span class="pill">Envíos a toda la Isla</span><span class="pill">Pago en tienda o por transferencia</span></div>
 
@@ -166,6 +181,25 @@ a.cart{text-decoration:none;display:inline-block}
 <div class="tr"><b>Te asesoramos</b><span>Antes y después de comprar.</span></div>
 </div>
 
+<section class="carrito-sec" id="carrito" hidden>
+<h2 class="sec-t">Tu carrito</h2>
+<div id="lineasC"></div>
+<p id="totalC" class="total-c"></p>
+<div id="formC">
+<div class="form-grid">
+<label>Nombre<input id="cNombre" maxlength="80" autocomplete="name"></label>
+<label>Teléfono (10 dígitos)<input id="cTel" inputmode="numeric" maxlength="10" autocomplete="tel"></label>
+<label>Entrega<select id="cEntrega"><option value="recoger">Recoger en tienda</option><option value="envio">Envío a domicilio</option></select></label>
+<label>Código postal (envío)<input id="cCP" inputmode="numeric" maxlength="5" placeholder="77400"></label>
+<label class="ancho">Dirección (si es envío)<input id="cDir" maxlength="200"></label>
+<label class="ancho">Nota<textarea id="cNota" maxlength="300" rows="2"></textarea></label>
+</div>
+<div id="errC" class="err"></div>
+<button id="btnEnviarPedido" class="btn btn-p" type="button">Enviar pedido</button>
+<p class="nota-c">El precio final y la existencia los confirma El Farito al atender tu pedido.</p>
+</div>
+<div id="okC" class="ok-msg" hidden></div>
+</section>
 <div class="foot" id="contacto">
 <div><h5>Mercado Local en Línea</h5><p>Isla Mujeres, Quintana Roo</p></div>
 <div><h5>Tienda oficial: El Farito</h5><p>Mercado del Cañotal, Local 31 Exterior</p><p>Tienda física: 9 am a 5 pm</p><p>Tienda virtual: 24/7</p><p>Teléfono: 998 766 0914</p><p><a href="https://wa.me/529987660914?text=Hola%2C%20quiero%20info%20de%20una%20pieza" style="color:#fff;font-weight:700">WhatsApp de El Farito</a></p></div>
@@ -174,6 +208,7 @@ a.cart{text-decoration:none;display:inline-block}
 </div>
 
 <script>
+  var SUPA_URL = "https://czcyzecpushhbnjgrqdc.supabase.co", SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3l6ZWNwdXNoaGJuamdycWRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NjQyMzMsImV4cCI6MjExMDM0MDIzM30.kiGPys4bil_6tHGRAgKTx9cIfuEVbJIiosKvwPZMMTE";
 (function(){
   function limpiarNombre(n){
     return String(n || "").replace(/^@/, "").replace(/\s*=\s*\d+/g, "").split(/\s+VENTA\b|\s+PRECIO X\b/i)[0].trim();
@@ -218,8 +253,133 @@ a.cart{text-decoration:none;display:inline-block}
       card.appendChild(el("div", "now", money(p.precio)));
     }
     card.appendChild(el("div", "stock", p.existencia > 0 ? "En existencia" : "Agotado"));
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "add-btn";
+    b.textContent = p.existencia > 0 ? "Agregar al carrito" : "Agotado";
+    b.disabled = !(p.existencia > 0);
+    b.onclick = function(){ agregarCarrito(p); };
+    card.appendChild(b);
     return card;
   }
+
+  var CARRITO_KEY = "carrito_elfarito";
+  var carrito = {};
+  try { carrito = JSON.parse(localStorage.getItem(CARRITO_KEY) || "{}") || {}; } catch(e){ carrito = {}; }
+  function guardarCarrito(){ try { localStorage.setItem(CARRITO_KEY, JSON.stringify(carrito)); } catch(e){} }
+  function precioDe(p){ return p.oferta ? p.oferta.precio_oferta : p.precio; }
+  function totalCarrito(){ return Object.keys(carrito).reduce(function(s, k){ return s + carrito[k].precio * carrito[k].cantidad; }, 0); }
+  function piezasCarrito(){ return Object.keys(carrito).reduce(function(s, k){ return s + carrito[k].cantidad; }, 0); }
+  function redondear(x){ return Math.round(x * 100) / 100; }
+
+  function agregarCarrito(p){
+    var it = carrito[p.codigo] || { codigo: p.codigo, nombre: limpiarNombre(p.nombre), precio: precioDe(p), cantidad: 0 };
+    if (it.cantidad >= 99) return;
+    it.cantidad += 1;
+    it.precio = precioDe(p);
+    carrito[p.codigo] = it;
+    guardarCarrito();
+    pintarCarrito();
+  }
+
+  function cambiarCarrito(codigo, d){
+    var it = carrito[codigo];
+    if (!it) return;
+    it.cantidad += d;
+    if (it.cantidad <= 0) delete carrito[codigo];
+    guardarCarrito();
+    pintarCarrito();
+  }
+
+  function boton(txt, fn){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = txt;
+    b.onclick = fn;
+    return b;
+  }
+
+  function pintarCarrito(){
+    document.getElementById("cuentaC").textContent = "(" + piezasCarrito() + ")";
+    var cont = document.getElementById("lineasC");
+    cont.textContent = "";
+    var keys = Object.keys(carrito);
+    if (!keys.length){
+      cont.appendChild(el("div", "vacio-msg", "Tu carrito está vacío. Agrega piezas desde el catálogo."));
+    }
+    keys.forEach(function(k){
+      var it = carrito[k];
+      var fila = el("div", "fila-c");
+      fila.appendChild(el("div", "", it.nombre + " · " + money(it.precio) + " c/u"));
+      var ctl = el("div", "ctl", "");
+      ctl.appendChild(boton("−", function(){ cambiarCarrito(k, -1); }));
+      ctl.appendChild(el("span", "", " " + it.cantidad + " "));
+      ctl.appendChild(boton("+", function(){ cambiarCarrito(k, 1); }));
+      ctl.appendChild(boton("Quitar", function(){ delete carrito[k]; guardarCarrito(); pintarCarrito(); }));
+      fila.appendChild(ctl);
+      cont.appendChild(fila);
+    });
+    document.getElementById("totalC").textContent = keys.length ? "Total estimado: " + money(totalCarrito()) : "";
+    document.getElementById("btnEnviarPedido").disabled = !keys.length;
+  }
+
+  function enviarPedido(){
+    var err = document.getElementById("errC");
+    var ok = document.getElementById("okC");
+    var btn = document.getElementById("btnEnviarPedido");
+    err.textContent = "";
+    ok.hidden = true;
+    var nombre = document.getElementById("cNombre").value.trim();
+    var tel = document.getElementById("cTel").value.replace(/\D/g, "");
+    var entrega = document.getElementById("cEntrega").value;
+    var dir = document.getElementById("cDir").value.trim();
+    var cp = document.getElementById("cCP").value.trim();
+    var nota = document.getElementById("cNota").value.trim();
+    if (!Object.keys(carrito).length){ err.textContent = "Tu carrito está vacío."; return; }
+    if (nombre.length < 2){ err.textContent = "Escribe tu nombre."; return; }
+    if (!/^[0-9]{10}$/.test(tel)){ err.textContent = "El teléfono debe tener 10 dígitos."; return; }
+    if (entrega === "envio" && !dir){ err.textContent = "Escribe la dirección para el envío."; return; }
+    if (entrega === "envio" && !/^[0-9]{5}$/.test(cp)){ err.textContent = "El código postal debe tener 5 dígitos."; return; }
+    var partidas = Object.keys(carrito).map(function(k){
+      return { codigo: carrito[k].codigo, nombre: carrito[k].nombre, cantidad: carrito[k].cantidad, precio: carrito[k].precio };
+    });
+    var cuerpo = {
+      nombre: nombre, telefono: tel, entrega: entrega,
+      direccion: entrega === "envio" ? dir : null,
+      cp: entrega === "envio" ? cp : null,
+      nota: nota || null, partidas: partidas, total: redondear(totalCarrito())
+    };
+    btn.disabled = true;
+    fetch(SUPA_URL + "/rest/v1/web_pedidos", {
+      method: "POST",
+      headers: { "apikey": SUPA_KEY, "Authorization": "Bearer " + SUPA_KEY, "Content-Type": "application/json", "Prefer": "return=minimal" },
+      body: JSON.stringify(cuerpo)
+    }).then(function(r){
+      if (!r.ok) throw new Error("status " + r.status);
+      carrito = {};
+      guardarCarrito();
+      pintarCarrito();
+      ["cNombre", "cTel", "cDir", "cCP", "cNota"].forEach(function(id){ document.getElementById(id).value = ""; });
+      ok.textContent = "Recibimos tu pedido. El Farito te confirma por teléfono.";
+      ok.hidden = false;
+    }).catch(function(){
+      err.textContent = "No pudimos enviar tu pedido. Revisa tu conexión e inténtalo de nuevo.";
+    }).then(function(){
+      btn.disabled = !Object.keys(carrito).length;
+    });
+  }
+
+  document.getElementById("btnCarrito").addEventListener("click", function(){
+    var sec = document.getElementById("carrito");
+    sec.hidden = false;
+    sec.scrollIntoView();
+  });
+  document.getElementById("btnEnviarPedido").addEventListener("click", enviarPedido);
+  document.getElementById("cEntrega").addEventListener("change", function(e){
+    document.getElementById("cDir").parentNode.style.opacity = e.target.value === "envio" ? "1" : "0.5";
+    document.getElementById("cCP").parentNode.style.opacity = e.target.value === "envio" ? "1" : "0.5";
+  });
+  pintarCarrito();
 
   function pintarOfertas(){
     var g = document.getElementById("gridOfertas");
