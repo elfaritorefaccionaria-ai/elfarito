@@ -15,6 +15,7 @@ a{color:inherit;text-decoration:none}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-0.3px}
 .logo i{width:32px;height:32px;border-radius:8px;background:#f0a030;display:inline-block;flex-shrink:0}
 .sub{font-size:13px;color:#c9d3df;margin-top:2px;padding-left:42px}
+.buscar-btn{height:46px;width:48px;border:none;border-radius:8px;background:#f0a030;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:-6px}
 .search{flex:1;min-width:260px;height:46px;border-radius:8px;background:#fff;color:#18222f;border:none;padding:0 18px;font-size:15px;font-family:inherit;box-sizing:border-box;outline:none}
 .nav{display:flex;gap:20px;font-size:15px;font-weight:500}
 .nav a{color:inherit;text-decoration:none}
@@ -96,7 +97,7 @@ a.cart{text-decoration:none;display:inline-block}
 <div class="logo"><img src="logo.svg" alt="" width="58" height="66" style="flex-shrink:0">Mercado Local en Línea</div>
 <div class="sub">Isla Mujeres</div>
 </div>
-<input id="q" class="search" type="search" placeholder="Busca por nombre o código de pieza" autocomplete="off">
+<input id="q" class="search" type="search" placeholder="Busca por nombre o código de pieza" autocomplete="off"><button id="btnBuscar" class="buscar-btn" type="button" aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#18222f" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></button>
 <div class="nav"><a href="#catalogo">Categorías</a><a href="#ofertas">Ofertas</a><a href="#permutas">Usados y permutas</a><a href="#contacto">Contacto</a></div>
 <a class="cart" href="#contacto" title="El carrito llega pronto. Por ahora escribe a El Farito.">Mi carrito</a>
 </div>
@@ -287,6 +288,16 @@ a.cart{text-decoration:none;display:inline-block}
     if (ofertas.length > 1) timer = setInterval(function(){ mostrarSlide(actual + 1); }, 5000);
   }
 
+  function buscarAhora(){
+    filtro = document.getElementById("q").value.trim().toLowerCase();
+    categoria = null;
+    marcarChip(null);
+    pintarOfertas();
+    pintarCatalogo();
+    document.getElementById("catalogo").scrollIntoView();
+  }
+  document.getElementById("btnBuscar").addEventListener("click", buscarAhora);
+  document.getElementById("q").addEventListener("keydown", function(e){ if (e.key === "Enter") { e.preventDefault(); buscarAhora(); } });
   document.getElementById("q").addEventListener("input", function(e){
     filtro = e.target.value.trim().toLowerCase();
     categoria = null;
