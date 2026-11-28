@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Panel El Farito</title>
+<style>
+  :root { --bg:#f4f6f8; --card:#ffffff; --txt:#1d2530; --sub:#6b7785; --line:#e3e8ee; --ok:#1b7f4b; --warn:#b3261e; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--bg); color:var(--txt); }
+  main { max-width: 480px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 20px; margin: 8px 0 4px; font-weight: 600; }
+  .sub { color: var(--sub); font-size: 13px; margin: 0 0 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .metric { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  .metric .l { font-size: 12px; color: var(--sub); }
+  .metric .v { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .row:last-child { border-bottom: 0; }
+  h2 { font-size: 15px; margin: 0 0 8px; font-weight: 600; }
+  label { display: block; font-size: 13px; color: var(--sub); margin: 10px 0 4px; }
+  input { width: 100%; padding: 11px; border: 1px solid var(--line); border-radius: 8px; font-size: 16px; }
+  button { width: 100%; padding: 12px; margin-top: 14px; border: 0; border-radius: 8px; background: #1d2530; color: #fff; font-size: 16px; cursor: pointer; }
+  button:disabled { opacity: .6; }
+  .err { color: var(--warn); font-size: 13px; margin-top: 8px; min-height: 18px; }
+  .muted { color: var(--sub); font-size: 12px; }
+  .out { color: var(--sub); font-size: 13px; background: none; border: 1px solid var(--line); color: var(--txt); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Panel El Farito</h1>
+  <p class="sub" id="estado">Inicia sesión para ver el resumen.</p>
+
+  <section id="login" class="card">
+    <form id="formLogin">
+      <label for="correo">Correo</label>
+      <input id="correo" type="email" autocomplete="username" required>
+      <label for="clave">Contraseña</label>
+      <input id="clave" type="password" autocomplete="current-password" required>
+      <button id="btnEntrar" type="submit">Entrar</button>
+      <div class="err" id="errLogin"></div>
+    </form>
+  </section>
+
+  <section id="resumen" class="hidden">
+    <div class="grid">
+      <div class="metric"><div class="l">Ventas hoy</div><div class="v" id="hoyTotal">-</div><div class="muted" id="hoyTickets"></div></div>
+      <div class="metric"><div class="l">Ventas del mes</div><div class="v" id="mes">-</div></div>
+      <div class="metric"><div class="l">Fiado pendiente</div><div class="v" id="fiado">-</div><div class="muted" id="deudores"></div></div>
+      <div class="metric"><div class="l">Inventario a costo</div><div class="v" id="invCosto">-</div><div class="muted" id="invProductos"></div></div>
+    </div>
+
+    <div class="card">
+      <h2>Últimos 7 días</h2>
+      <div id="dias"></div>
+    </div>
+
+    <div class="card">
+      <h2>Más vendidos (7 días)</h2>
+      <div id="top"></div>
+    </div>
+
+    <div class="card">
+      <h2>Bajo inventario</h2>
+      <div id="bajos"></div>
+    </div>
+
+    <div class="card">
+      <h2>Caja</h2>
+      <div id="caja"></div>
+    </div>
+
+    <p class="muted" id="actualizado"></p>
+    <button id="btnRefrescar" class="out" type="button">Actualizar</button>
+    <button id="btnSalir" class="out" type="button">Cerrar sesión</button>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  var SUPA_URL = "https://czcyzecpushhbnjgrqdc.supabase.co";
+  var SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y3l6ZWNwdXNoaGJuamdycWRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NjQyMzMsImV4cCI6MjExMDM0MDIzM30.kiGPys4bil_6tHGRAgKTx9cIfuEVbJIiosKvwPZMMTE";
+  var sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+  function money(n) {
+    return "$" + Number(n || 0).toLocaleString("es-MX", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+  function txt(id, v) { document.getElementById(id).textContent = v; }
+  function fila(izq, der) {
+    var d = document.createElement("div");
+    d.className = "row";
+    var a = document.createElement("span"); a.textContent = izq;
+    var b = document.createElement("span"); b.textContent = der;
+    d.appendChild(a); d.appendChild(b);
+    return d;
+  }
+  function vacio(el, msg) {
+    el.replaceChildren();
+    var p = document.createElement("div"); p.className = "muted"; p.textContent = msg;
+    el.appendChild(p);
+  }
+
+  function pintar(datos, actualizado) {
+    txt("hoyTotal", money(datos.hoy && datos.hoy.total));
+    txt("hoyTickets", (datos.hoy && datos.hoy.tickets || 0) + " tickets");
+    txt("mes", money(datos.mes));
+    txt("fiado", money(datos.fiado && datos.fiado.total));
+    txt("deudores", (datos.fiado && datos.fiado.deudores || 0) + " clientes");
+    txt("invCosto", money(datos.inventario && datos.inventario.valor_costo));
+    txt("invProductos", (datos.inventario && datos.inventario.productos || 0) + " productos");
+
+    var dias = document.getElementById("dias");
+    dias.replaceChildren();
+    (datos.ultimos_7_dias || []).forEach(function (d) { dias.appendChild(fila(d.fecha, money(d.total))); });
+
+    var top = document.getElementById("top");
+    top.replaceChildren();
+    if (!(datos.mas_vendidos_7d || []).length) vacio(top, "Sin ventas en los últimos 7 días.");
+    (datos.mas_vendidos_7d || []).forEach(function (p) { top.appendChild(fila(p.nombre + " (" + p.piezas + ")", money(p.importe))); });
+
+    var bajos = document.getElementById("bajos");
+    bajos.replaceChildren();
+    var bi = datos.bajo_inventario || { total: 0, lista: [] };
+    if (!bi.lista.length) vacio(bajos, "Nada por debajo del mínimo.");
+    bi.lista.forEach(function (p) { bajos.appendChild(fila(p.nombre, p.existencia + " / mín " + p.minimo)); });
+    if (bi.total > bi.lista.length) vacio(bajos, "y " + (bi.total - bi.lista.length) + " más.");
+
+    var caja = document.getElementById("caja");
+    caja.replaceChildren();
+    if (datos.caja) {
+      caja.appendChild(fila("Abierta desde", datos.caja.abierta_desde || "-"));
+      caja.appendChild(fila("Fondo inicial", money(datos.caja.fondo)));
+      caja.appendChild(fila("Efectivo esperado", money(datos.caja.efectivo_esperado)));
+    } else {
+      vacio(caja, "No hay turno de caja abierto.");
+    }
+
+    var pagos = datos.hoy && datos.hoy.por_metodo || {};
+    Object.keys(pagos).forEach(function (m) { caja.appendChild(fila("Cobrado hoy: " + m, money(pagos[m]))); });
+
+    txt("actualizado", "Actualizado: " + (actualizado || datos.generado || "-"));
+  }
+
+  async function cargar() {
+    var r = await sb.from("resumen").select("datos, actualizado").maybeSingle();
+    if (r.error) { txt("estado", "No se pudo leer el resumen: " + r.error.message); return; }
+    if (!r.data) { txt("estado", "Todavía no hay resumen. Sube uno desde el POS."); return; }
+    txt("estado", "");
+    pintar(r.data.datos, new Date(r.data.actualizado).toLocaleString("es-MX"));
+  }
+
+  function mostrarSesion(on) {
+    document.getElementById("login").classList.toggle("hidden", on);
+    document.getElementById("resumen").classList.toggle("hidden", !on);
+  }
+
+  document.getElementById("formLogin").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var btn = document.getElementById("btnEntrar");
+    btn.disabled = true; txt("errLogin", "");
+    var r = await sb.auth.signInWithPassword({
+      email: document.getElementById("correo").value.trim(),
+      password: document.getElementById("clave").value
+    });
+    btn.disabled = false;
+    if (r.error) { txt("errLogin", "Correo o contraseña incorrectos."); return; }
+    document.getElementById("clave").value = "";
+    mostrarSesion(true);
+    txt("estado", "Cargando…");
+    await cargar();
+  });
+
+  document.getElementById("btnRefrescar").addEventListener("click", cargar);
+  document.getElementById("btnSalir").addEventListener("click", async function () {
+    await sb.auth.signOut();
+    mostrarSesion(false);
+    txt("estado", "Inicia sesión para ver el resumen.");
+  });
+
+  sb.auth.getSession().then(function (s) {
+    if (s.data && s.data.session) { mostrarSesion(true); cargar(); }
+  });
+</script>
+</body>
+</html>
