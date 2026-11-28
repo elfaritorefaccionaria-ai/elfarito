@@ -127,7 +127,11 @@
     var bi = datos.bajo_inventario || { total: 0, lista: [] };
     if (!bi.lista.length) vacio(bajos, "Nada por debajo del mínimo.");
     bi.lista.forEach(function (p) { bajos.appendChild(fila(p.nombre, p.existencia + " / mín " + p.minimo)); });
-    if (bi.total > bi.lista.length) vacio(bajos, "y " + (bi.total - bi.lista.length) + " más.");
+    if (bi.total > bi.lista.length) {
+      var mas = document.createElement("div"); mas.className = "muted";
+      mas.textContent = "y " + (bi.total - bi.lista.length) + " más.";
+      bajos.appendChild(mas);
+    }
 
     var caja = document.getElementById("caja");
     caja.replaceChildren();
